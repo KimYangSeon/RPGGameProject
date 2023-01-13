@@ -12,6 +12,9 @@ public class PlayerAction : MonoBehaviour
     Vector3 dirVec;
     GameObject scanObject;
 
+    public float damage;
+    public GameObject dust;
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -51,8 +54,14 @@ public class PlayerAction : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            anim.SetTrigger("Attack");
+            Attack();
         }
+
+    }
+
+    void Attack()
+    {
+        anim.SetTrigger("Attack");
 
     }
 
