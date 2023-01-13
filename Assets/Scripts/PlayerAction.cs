@@ -11,14 +11,17 @@ public class PlayerAction : MonoBehaviour
     Animator anim;
     Vector3 dirVec;
     GameObject scanObject;
+    bool isMoving = false;
+    SpriteRenderer sprite;
 
-    public float damage;
-    public GameObject dust;
+    public float atk;
+    public ParticleSystem dust;
 
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -44,24 +47,39 @@ public class PlayerAction : MonoBehaviour
         */
         if (h != 0 || v != 0)
         {
-            anim.SetBool("isChange", true);
+            if (!isMoving)
+            {
+                isMoving = true;
+                anim.SetBool("isMoving", isMoving);
+                dust.Play();
+                
+            }
             dirVec = new Vector2(h, v).normalized;
+            if (h < 0) sprite.flipX = true;
+            else sprite.flipX = false;
         }
-        else anim.SetBool("isChange", false);
+        else
+        {
+            isMoving = false;
+            anim.SetBool("isMoving", isMoving);
+            dust.Stop();
+        }
 
         // scan object
         if (Input.GetKeyDown(KeyCode.X) && scanObject) Debug.Log(scanObject);
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Attack();
+            Attack(scanObject);
         }
 
     }
 
-    void Attack()
+    void Attack(GameObject scanObject)
     {
-        anim.SetTrigger("Attack");
+        anim.SetTrigger("doAttack");
+        if (!scanObject) return;
+        scanObject.GetComponent<BossAction>().getDamage(atk);
 
     }
 
@@ -69,9 +87,9 @@ public class PlayerAction : MonoBehaviour
     {
         rigid.velocity = new Vector2(h, v).normalized * Time.deltaTime * velocity; // 플레이어 이동
 
-        Debug.DrawRay(rigid.position, dirVec * 0.7f, new Color(0, 1, 0)); // 레이캐스트
-        // Object 레이어만 스캔
-        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 0.7f, LayerMask.GetMask("Object"));
+        Debug.DrawRay(rigid.position + new Vector2(0, 0.5f), dirVec * 1.5f, new Color(0, 1, 0)); // 레이캐스트
+        // Boss 레이어만 스캔
+        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position + new Vector2(0, 0.5f), dirVec, 1.5f, LayerMask.GetMask("Boss"));
         if (rayHit.collider)
         {
             scanObject = rayHit.collider.gameObject;
