@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager GM;
     // Start is called before the first frame update
 
+    public bool isGameOver = false;
     private void Awake()
     {
         if(!GM)
@@ -21,5 +22,12 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void setGameOver()
+    {
+        isGameOver = true;
+        Debug.Log("Game Over");
+        //Time.timeScale = 0;
     }
 }
