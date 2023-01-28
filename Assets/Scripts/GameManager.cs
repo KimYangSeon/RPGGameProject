@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     public void setGameOver()
     {
         isGameOver = true;
-        Debug.Log("Game Over");
+        //Debug.Log("Game Over");
         //Time.timeScale = 0;
     }
 }

@@ -13,7 +13,7 @@ public class PlayerAction : MonoBehaviour
     Vector3 dirVec;
     GameObject scanObject;
     bool isMoving = false;
-    bool isDead = false;
+    public bool isDead = false;
     SpriteRenderer sprite;
 
     public float atk;
@@ -21,6 +21,7 @@ public class PlayerAction : MonoBehaviour
     public float curPlayerHp;
     public float maxPlayerHp;
     public Image playerHpImg;
+    // public bool isOverHealed;
 
     void Awake()
     {
@@ -31,8 +32,8 @@ public class PlayerAction : MonoBehaviour
 
     private void Start()
     {
-        //StartCoroutine(dotdamage());
         hpBarRefresh(curPlayerHp);
+        StartCoroutine(dotdamage());
     }
 
     // Update is called once per frame
@@ -116,8 +117,10 @@ public class PlayerAction : MonoBehaviour
     {
         if (isDead) return;
 
+        isDead = true;
         anim.SetTrigger("doDie");
-        GameManager.GM.setGameOver();
+        //GameManager.GM.setGameOver();
+        //resetPlayer();
     }
 
     void hpBarRefresh(float hp)
@@ -129,7 +132,7 @@ public class PlayerAction : MonoBehaviour
     {
         rigid.velocity = new Vector2(h, v).normalized * Time.deltaTime * velocity; // 플레이어 이동
 
-        Debug.DrawRay(rigid.position, dirVec * 1.5f, new Color(0, 1, 0)); // 레이캐스트
+        // Debug.DrawRay(rigid.position, dirVec * 1.5f, new Color(0, 1, 0)); // 레이캐스트
         // Boss 레이어만 스캔
         RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1.5f, LayerMask.GetMask("Boss"));
         if (rayHit.collider)
@@ -141,25 +144,38 @@ public class PlayerAction : MonoBehaviour
 
     }
 
-    public void getHealing(float heal)
+    public void getHealing(float value)
     {
         if (isDead) return;
-
-        curPlayerHp += heal;
+        //isOverHealed = false;
+        //Debug.Log(curPlayerHp);
+        curPlayerHp += value;
         if (curPlayerHp > maxPlayerHp)
         {
             curPlayerHp = maxPlayerHp;
+            //isOverHealed = true;
         }
         hpBarRefresh(curPlayerHp);
+        //Debug.Log(isOverHealed);
     }
 
     IEnumerator dotdamage()
     {
         while (true)
         {
-            getDamage(1);
+            float damage = Random.Range(0.5f, 2.0f);
+            getDamage(damage);
             yield return new WaitForSeconds(1.0f);
         }
         
+    }
+
+    public void resetPlayer()
+    {
+        curPlayerHp = 30;
+        GameManager.GM.isGameOver = false;
+        isDead = false;
+        anim.ResetTrigger("doDie");
+        hpBarRefresh(curPlayerHp);
     }
 }
