@@ -8,7 +8,7 @@ public class PlayerAction : MonoBehaviour
     float h;
     float v;
     public float velocity;
-    Rigidbody2D rigid;
+    public Rigidbody2D rigid;
     Animator anim;
     Vector3 dirVec;
     GameObject scanObject;
@@ -17,11 +17,19 @@ public class PlayerAction : MonoBehaviour
     SpriteRenderer sprite;
 
     public float atk;
-    public ParticleSystem dust;
+    //public ParticleSystem dust;
     public float curPlayerHp;
     public float maxPlayerHp;
-    public Image playerHpImg;
+    public Image[] playerHpImg = new Image[2];
     // public bool isOverHealed;
+    public bool randomMode;
+    public float curTime;
+    WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
+    public float timer;
+    public bool isTimeOver;
+
+    Coroutine dotCo;
+    Coroutine timerCo;
 
     void Awake()
     {
@@ -32,8 +40,11 @@ public class PlayerAction : MonoBehaviour
 
     private void Start()
     {
-        hpBarRefresh(curPlayerHp);
-        StartCoroutine(dotdamage());
+        //resetPlayer();
+        //hpBarRefresh(curPlayerHp);
+        //StartCoroutine(dotdamage());
+        if(randomMode) StartCoroutine(randomMove());
+        //Debug.Log("플레이어 start");
     }
 
     // Update is called once per frame
@@ -41,30 +52,19 @@ public class PlayerAction : MonoBehaviour
     {
         if (GameManager.GM.isGameOver) return;
         // 플레이어 이동  
-        h = Input.GetAxisRaw("Horizontal");
-        v = Input.GetAxisRaw("Vertical");
-        /*
-        if (anim.GetInteger("hAxisRaw") != h) {
-            anim.SetBool("isChange", true);
-            anim.SetInteger("hAxisRaw", (int)h);
-        }
-        else if(anim.GetInteger("vAxisRaw") != v)
+        if (!randomMode)
         {
-            anim.SetBool("isChange", true);
-            anim.SetInteger("vAxisRaw", (int)v);
+            h = Input.GetAxisRaw("Horizontal");
+            v = Input.GetAxisRaw("Vertical");
         }
-        else
-        {
-            anim.SetBool("isChange", false);
-        }
-        */
+
         if (h != 0 || v != 0)
         {
             if (!isMoving)
             {
                 isMoving = true;
                 anim.SetBool("isMoving", isMoving);
-                dust.Play();
+                //dust.Play();
                 
             }
             dirVec = new Vector2(h, v).normalized;
@@ -75,7 +75,7 @@ public class PlayerAction : MonoBehaviour
         {
             isMoving = false;
             anim.SetBool("isMoving", isMoving);
-            dust.Stop();
+            //dust.Stop();
         }
 
         // scan object
@@ -88,6 +88,16 @@ public class PlayerAction : MonoBehaviour
 
     }
 
+    IEnumerator randomMove()
+    {
+        while (true)
+        {
+            h = Random.Range(-1, 2);
+            v = Random.Range(-1, 2);
+            yield return new WaitForSeconds(2.0f);
+        }
+    }
+
     void Attack(GameObject scanObject)
     {
         if (isDead) return;
@@ -95,7 +105,6 @@ public class PlayerAction : MonoBehaviour
         anim.SetTrigger("doAttack");
         if (!scanObject) return;
         scanObject.GetComponent<BossAction>().getDamage(atk);
-
     }
 
     public void getDamage(float damage)
@@ -119,13 +128,19 @@ public class PlayerAction : MonoBehaviour
 
         isDead = true;
         anim.SetTrigger("doDie");
+        StopCoroutine(dotdamage());
+        StopCoroutine(startTimer());
         //GameManager.GM.setGameOver();
         //resetPlayer();
     }
 
     void hpBarRefresh(float hp)
     {
-        playerHpImg.fillAmount = hp / maxPlayerHp;
+        foreach(Image img in playerHpImg)
+        {
+            img.fillAmount = hp / maxPlayerHp;
+        }
+        
     }
 
     void FixedUpdate()
@@ -133,6 +148,7 @@ public class PlayerAction : MonoBehaviour
         rigid.velocity = new Vector2(h, v).normalized * Time.deltaTime * velocity; // 플레이어 이동
 
         // Debug.DrawRay(rigid.position, dirVec * 1.5f, new Color(0, 1, 0)); // 레이캐스트
+
         // Boss 레이어만 스캔
         RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1.5f, LayerMask.GetMask("Boss"));
         if (rayHit.collider)
@@ -159,7 +175,7 @@ public class PlayerAction : MonoBehaviour
         //Debug.Log(isOverHealed);
     }
 
-    IEnumerator dotdamage()
+    public IEnumerator dotdamage()
     {
         while (true)
         {
@@ -167,15 +183,55 @@ public class PlayerAction : MonoBehaviour
             getDamage(damage);
             yield return new WaitForSeconds(1.0f);
         }
-        
+    }
+
+    public IEnumerator startTimer()
+    {
+        curTime = 0;
+        //Debug.Log("start timer");
+
+        while (true)
+        {
+            if (curTime < timer)
+            {
+                yield return fixedUpdate;
+                curTime += Time.deltaTime;
+            }
+            else
+            {
+                //Debug.Log("timeover");
+                //GameManager.GM.timeOver = true;
+                isTimeOver = true;
+                yield break;
+            }
+        }
+
     }
 
     public void resetPlayer()
     {
-        curPlayerHp = 30;
-        GameManager.GM.isGameOver = false;
+        if(dotCo != null)
+            StopCoroutine(dotCo);
+        if(timerCo != null)
+            StopCoroutine(timerCo);
+
+        float x = Random.Range(-8.0f, 8.0f);
+        float y = Random.Range(-4.0f, 5.0f);
+        transform.localPosition = new Vector3(x, y, 0);
+
+        //transform.localPosition = new Vector3(2, 0, 0);
+        curPlayerHp = maxPlayerHp;
+        //GameManager.GM.isGameOver = false;
+        //GameManager.GM.timeOver = false;
+        isTimeOver = false;
         isDead = false;
         anim.ResetTrigger("doDie");
         hpBarRefresh(curPlayerHp);
+
+        dotCo = StartCoroutine(dotdamage());
+        timerCo = StartCoroutine(startTimer());
+
+        //StartCoroutine(dotdamage());
+        //StartCoroutine(startTimer());
     }
 }

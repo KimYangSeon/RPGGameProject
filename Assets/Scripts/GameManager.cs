@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
 
     public bool isGameOver = false;
+    public bool timeOver = false;
+    public float timer;
+    public float curTime;
+    WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
     private void Awake()
     {
         if(!GM)
@@ -15,7 +19,8 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        
+        //timeOver = false;
+        //StartCoroutine(startTimer());
     }
 
     // Update is called once per frame
@@ -29,5 +34,34 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         //Debug.Log("Game Over");
         //Time.timeScale = 0;
+    }
+
+    public void resetManager()
+    {
+        timeOver = false;
+        StopCoroutine(startTimer());
+        StartCoroutine(startTimer());
+    }
+
+    IEnumerator startTimer()
+    {
+        curTime = 0;
+        Debug.Log("start timer");
+        
+        while (true)
+        {
+            if(curTime < timer)
+            {
+                yield return fixedUpdate;
+                curTime += Time.deltaTime;
+            }
+            else
+            {
+                Debug.Log("timeover");
+                timeOver = true;
+                yield return null;
+            }
+        }
+        
     }
 }

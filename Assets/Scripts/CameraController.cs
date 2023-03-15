@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     Vector2 mapSize;
     [SerializeField]
-    RectTransform map;
+    // RectTransform map;
 
     Vector3 cameraPos = new Vector3(0, 0, -10);
 

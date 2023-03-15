@@ -6,6 +6,8 @@ public class NPCAction : MonoBehaviour
 {
     [SerializeField]
     GameObject player;
+    [SerializeField]
+    GameObject healEffect;
 
     IEnumerator coolTimeCounter;
     WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
@@ -13,6 +15,12 @@ public class NPCAction : MonoBehaviour
     public float filledTime;
     bool isHealEnable;
     public float defaultHealValue = 20;
+    public float skillRange;
+    public float distance;
+
+    public float curNPCHp;
+    public float maxNPCHp;
+
 
     void Start()
     {
@@ -24,30 +32,44 @@ public class NPCAction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.C)) Debug.Log("bb");
+        
     }
 
     public bool Healing(float value)
     {
-        if (isHealEnable)
+        //Debug.Log("Èú ½Ãµµ");
+        //bool abcd = enableRange();
+        //Debug.Log(abcd);
+        if (isHealEnable && enableRange())
         {
-           // Debug.Log("heal");
+            //Debug.Log("heal");
             player.GetComponent<PlayerAction>().getHealing(value);
+            healEffect.SetActive(true);
+            StartCoroutine(effectDealy());
             StartCoroutine(cntCoolTime());
             return true;
-            
+      
         }
         return false;
     }
 
-    IEnumerator dotHealing()
+    bool enableRange()
     {
-        while (true)
-        {
-            Healing(defaultHealValue);
-            yield return new WaitForSeconds(1.0f);
-        }
+        //float distance = Vector2.Distance(transform.position, player.GetComponent<Transform>().position);
+        //Debug.Log(distance);
+        distance = Vector2.Distance(transform.localPosition, player.GetComponent<Transform>().localPosition);
+        if (distance > skillRange) return false;
+        return true;
     }
+
+    //IEnumerator dotHealing()
+    //{
+    //    while (true)
+    //    {
+    //        Healing(defaultHealValue);
+    //        yield return new WaitForSeconds(1.0f);
+    //    }
+    //}
 
     IEnumerator cntCoolTime()
     {
@@ -69,5 +91,13 @@ public class NPCAction : MonoBehaviour
                 yield break;
             }
         }
+    }
+
+ 
+
+    IEnumerator effectDealy()
+    {
+        yield return new WaitForSeconds(1.0f);
+        healEffect.SetActive(false);
     }
 }
