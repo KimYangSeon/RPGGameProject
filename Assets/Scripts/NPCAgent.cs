@@ -33,6 +33,7 @@ public class NPCAgent : Agent
 
         // 플레이어 리셋
         player.resetPlayer();
+        npc.isBorder = false;
         //GameManager.GM.resetManager();
         float x = Random.Range(-8.0f, 8.0f);
         float y = Random.Range(-4.0f, 5.0f);
@@ -50,15 +51,15 @@ public class NPCAgent : Agent
 
         //npc.distance = Vector2.Distance(transform.position, player.GetComponent<Transform>().position);
         //sensor.AddObservation(npc.distance);
-        sensor.AddObservation(player.transform.localPosition);
-        sensor.AddObservation(player.rigid.velocity);
-        sensor.AddObservation(rigid.velocity);
+        //sensor.AddObservation(player.transform.localPosition);
+        //sensor.AddObservation(player.rigid.velocity);
+        //sensor.AddObservation(rigid.velocity);
 
         // npc의 힐 쿨타임을 관찰
         //sensor.AddObservation(npc.coolTime);
         //sensor.AddObservation(npc.filledTime);
 
-        sensor.AddObservation(transform.localPosition);
+        //sensor.AddObservation(transform.localPosition);
         //Debug.Log(player.transform.localPosition);
     }
 
@@ -68,21 +69,28 @@ public class NPCAgent : Agent
         AgentAction(actions.DiscreteActions);
         //if (player.isTimeOver)
         //{
-        //    Debug.Log("time over");
-        //    AddReward(1.0f);
+        //    //Debug.Log("time over");
+        //    SetReward(1.0f);
         //    EndEpisode();
         //}
 
         if (player.isDead)
         {
-            Debug.Log("player dead");
-            AddReward(-1.0f);
+            //Debug.Log("player dead");
+            //SetReward(-1f);
             EndEpisode();
         }
 
-        //if(npc.distance <= 2)
+        //if (npc.distance <= 1)
         //{
-        //    AddReward(0.0001f);
+        //    SetReward(1.0f);
+        //    EndEpisode();
+        //}
+
+        //if (npc.isBorder)
+        //{
+        //    AddReward(-1f);
+        //    EndEpisode();
         //}
         //else
         //{
@@ -94,13 +102,16 @@ public class NPCAgent : Agent
         //    SetReward(1.0f);
         //    //EndEpisode();
         //}
-        AddReward(-0.001f);
+        //AddReward(-0.001f);
     }
 
     public void AgentAction(ActionSegment<int> act)
     {
         var isHeal = act[0];
+        //var dirToGo = Vector3.zero;
+        //var rotateDir = Vector3.zero;
         var forward = act[1];
+        //var rotate = act[2];
 
         if (isHeal == 1)
         {
@@ -114,8 +125,8 @@ public class NPCAgent : Agent
                 //    //else AddReward(1f);
                 //    // 실제로 회복된 값만큼 보상
                 //    // 오버힐량만큼 감점
-                AddReward(1f);
-                EndEpisode();
+                SetReward(1f);
+                //EndEpisode();
             }
             //else // 쿨타임 일 때 힐 시도하면 감점
             //{
@@ -125,7 +136,29 @@ public class NPCAgent : Agent
             
 
         }
-        //AddReward(-0.0001f);
+        AddReward(-0.0001f);
+
+        //switch (forward)
+        //{
+        //    case 1:
+        //        dirToGo = transform.forward * velocity;
+        //        break;
+        //}
+
+        //switch (rotate)
+        //{
+        //    case 1:
+        //        rotateDir = transform.up * -1f;
+        //        break;
+        //    case 2:
+        //        rotateDir = transform.up * 1f;
+        //        break;
+        //}
+
+        //transform.Rotate(rotateDir, Time.deltaTime * 100f);
+        //rigid.AddForce(dirToGo, ForceMode2D.Force);
+
+
         if (forward == 0)
         {
             directionX = 0;
@@ -143,34 +176,34 @@ public class NPCAgent : Agent
         }
         else if (forward == 3)
         {
-            directionX = 1;
+            directionX = -1;
             directionY = 0;
         }
         else if (forward == 4)
         {
             directionX = 1;
-            directionY = 1;
-        }
-        else if (forward == 5)
-        {
-            directionX = 1;
-            directionY = -1;
-        }
-        else if (forward == 6)
-        {
-            directionX = -1;
             directionY = 0;
         }
-        else if (forward == 7)
-        {
-            directionX = -1;
-            directionY = 1;
-        }
-        else if (forward == 8)
-        {
-            directionX = -1;
-            directionY = -1;
-        }
+        //else if (forward == 5)
+        //{
+        //    directionX = 1;
+        //    directionY = -1;
+        //}
+        //else if (forward == 6)
+        //{
+        //    directionX = -1;
+        //    directionY = 0;
+        //}
+        //else if (forward == 7)
+        //{
+        //    directionX = -1;
+        //    directionY = 1;
+        //}
+        //else if (forward == 8)
+        //{
+        //    directionX = -1;
+        //    directionY = -1;
+        //}
 
 
         if (directionX != 0 || directionY != 0)
@@ -190,8 +223,6 @@ public class NPCAgent : Agent
 
         rigid.velocity = new Vector2(directionX, directionY).normalized * Time.deltaTime * velocity; // 플레이어 이동
 
-        //transform.Translate(directionX * Time.deltaTime * 2f, directionY * Time.deltaTime * 2f, 0);
-
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -203,6 +234,21 @@ public class NPCAgent : Agent
             discreteActionsOut[0] = 0;
         }
 
+        //if (Input.GetKey(KeyCode.W))
+        //{
+        //    discreteActionsOut[1] = 1;
+        //}
+
+        //if (Input.GetKey(KeyCode.A))
+        //{
+        //    discreteActionsOut[2] = 1;
+        //}
+
+        //if (Input.GetKey(KeyCode.D))
+        //{
+        //    discreteActionsOut[2] = 2;
+        //}
+
         if (Input.GetKey(KeyCode.W))
         {
             discreteActionsOut[1] = 1;
@@ -211,30 +257,30 @@ public class NPCAgent : Agent
         {
             discreteActionsOut[1] = 2;
         }
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.A))
         {
             discreteActionsOut[1] = 3;
         }
-        else if (Input.GetKey(KeyCode.E))
+        else if (Input.GetKey(KeyCode.D))
         {
             discreteActionsOut[1] = 4;
         }
-        else if (Input.GetKey(KeyCode.C))
-        {
-            discreteActionsOut[1] = 5;
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            discreteActionsOut[1] = 6;
-        }
-        else if (Input.GetKey(KeyCode.Q))
-        {
-            discreteActionsOut[1] = 7;
-        }
-        else if (Input.GetKey(KeyCode.Z))
-        {
-            discreteActionsOut[1] = 8;
-        }
+        //else if (Input.GetKey(KeyCode.C))
+        //{
+        //    discreteActionsOut[1] = 5;
+        //}
+        //else if (Input.GetKey(KeyCode.A))
+        //{
+        //    discreteActionsOut[1] = 6;
+        //}
+        //else if (Input.GetKey(KeyCode.Q))
+        //{
+        //    discreteActionsOut[1] = 7;
+        //}
+        //else if (Input.GetKey(KeyCode.Z))
+        //{
+        //    discreteActionsOut[1] = 8;
+        //}
 
 
 

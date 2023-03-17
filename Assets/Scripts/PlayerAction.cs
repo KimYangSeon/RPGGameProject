@@ -18,8 +18,8 @@ public class PlayerAction : MonoBehaviour
 
     public float atk;
     //public ParticleSystem dust;
-    public float curPlayerHp;
-    public float maxPlayerHp;
+    public int curPlayerHp;
+    public int maxPlayerHp;
     public Image[] playerHpImg = new Image[2];
     // public bool isOverHealed;
     public bool randomMode;
@@ -27,9 +27,14 @@ public class PlayerAction : MonoBehaviour
     WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
     public float timer;
     public bool isTimeOver;
+    public Image attackIcon;
+    public Color pressedColor;
 
     Coroutine dotCo;
     Coroutine timerCo;
+
+    public Text playerHPText;
+
 
     void Awake()
     {
@@ -98,18 +103,28 @@ public class PlayerAction : MonoBehaviour
         }
     }
 
-    void Attack(GameObject scanObject)
+    public void Attack(GameObject scanObject)
     {
+        StartCoroutine(IconEffect(attackIcon));
         if (isDead) return;
 
         anim.SetTrigger("doAttack");
         if (!scanObject) return;
         scanObject.GetComponent<BossAction>().getDamage(atk);
+
     }
 
-    public void getDamage(float damage)
+    IEnumerator IconEffect(Image icon)
     {
-        if (isDead) return;
+        Color origin = icon.color;
+        icon.color *= pressedColor;
+        yield return new WaitForSeconds(0.1f);
+        icon.color = origin;
+    }
+
+    public void getDamage(int damage)
+    {
+        if (isDead || damage <= 0) return;
 
         curPlayerHp -= damage;
         anim.SetTrigger("doHit");
@@ -134,11 +149,12 @@ public class PlayerAction : MonoBehaviour
         //resetPlayer();
     }
 
-    void hpBarRefresh(float hp)
+    void hpBarRefresh(int hp)
     {
+        playerHPText.text = "HP " + hp ;
         foreach(Image img in playerHpImg)
         {
-            img.fillAmount = hp / maxPlayerHp;
+            img.fillAmount = (float)hp / maxPlayerHp;
         }
         
     }
@@ -160,7 +176,7 @@ public class PlayerAction : MonoBehaviour
 
     }
 
-    public void getHealing(float value)
+    public void getHealing(int value)
     {
         if (isDead) return;
         //isOverHealed = false;
@@ -179,7 +195,7 @@ public class PlayerAction : MonoBehaviour
     {
         while (true)
         {
-            float damage = Random.Range(0.5f, 2.0f);
+            int damage = Random.Range(0, 5);
             getDamage(damage);
             yield return new WaitForSeconds(1.0f);
         }

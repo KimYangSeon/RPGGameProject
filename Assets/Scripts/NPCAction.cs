@@ -14,12 +14,13 @@ public class NPCAction : MonoBehaviour
     public float coolTime = 5f;
     public float filledTime;
     bool isHealEnable;
-    public float defaultHealValue = 20;
+    public int defaultHealValue = 20;
     public float skillRange;
     public float distance;
 
-    public float curNPCHp;
-    public float maxNPCHp;
+    public int curNPCHp;
+    public int maxNPCHp;
+    public bool isBorder;
 
 
     void Start()
@@ -35,7 +36,7 @@ public class NPCAction : MonoBehaviour
         
     }
 
-    public bool Healing(float value)
+    public bool Healing(int value)
     {
         //Debug.Log("Èú ½Ãµµ");
         //bool abcd = enableRange();
@@ -99,5 +100,13 @@ public class NPCAction : MonoBehaviour
     {
         yield return new WaitForSeconds(1.0f);
         healEffect.SetActive(false);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Border")
+        {
+            isBorder = true;
+        }
     }
 }
