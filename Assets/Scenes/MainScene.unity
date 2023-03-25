@@ -603,6 +603,7 @@ MonoBehaviour:
   hpImg: {fileID: 627047781}
   skillRange: 2
   player: {fileID: 530682372}
+  alert: {fileID: 1797492902}
 --- !u!1 &250083029
 GameObject:
   m_ObjectHideFlags: 0
