@@ -29,9 +29,11 @@ public class PlayerAction : MonoBehaviour
     public bool isTimeOver;
     public Image attackIcon;
     public Color pressedColor;
+    bool isAttackEnable = true;
 
     Coroutine dotCo;
     Coroutine timerCo;
+    Coroutine attackCo;
 
     public Text playerHPText;
 
@@ -106,8 +108,10 @@ public class PlayerAction : MonoBehaviour
     public void Attack(GameObject scanObject)
     {
         StartCoroutine(IconEffect(attackIcon));
-        if (isDead) return;
+     
+        if (isDead || !isAttackEnable) return;
 
+        StartCoroutine(attackCoolTime());
         anim.SetTrigger("doAttack");
         if (!scanObject) return;
         scanObject.GetComponent<BossAction>().getDamage(atk);
@@ -224,6 +228,25 @@ public class PlayerAction : MonoBehaviour
 
     }
 
+    IEnumerator attackCoolTime()
+    {
+        float t = 0f;
+        isAttackEnable = false;
+
+        while (true)
+        {
+            if (t < 2)
+            {
+                yield return fixedUpdate;
+                t += Time.deltaTime;
+            }
+            else
+            {
+                isAttackEnable = true;
+                yield break;
+            }
+        }
+    }
     public void resetPlayer()
     {
         if(dotCo != null)
