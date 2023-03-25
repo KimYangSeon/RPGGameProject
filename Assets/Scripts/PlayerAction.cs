@@ -21,6 +21,7 @@ public class PlayerAction : MonoBehaviour
     public int curPlayerHp;
     public int maxPlayerHp;
     public Image[] playerHpImg = new Image[2];
+    public Image coolDownImg;
     // public bool isOverHealed;
     public bool randomMode;
     public float curTime;
@@ -232,6 +233,7 @@ public class PlayerAction : MonoBehaviour
     {
         float t = 0f;
         isAttackEnable = false;
+        coolDownImg.fillAmount = 1;
 
         while (true)
         {
@@ -239,10 +241,12 @@ public class PlayerAction : MonoBehaviour
             {
                 yield return fixedUpdate;
                 t += Time.deltaTime;
+                coolDownImg.fillAmount = (2-t) / 2;
             }
             else
             {
                 isAttackEnable = true;
+                coolDownImg.fillAmount = 0;
                 yield break;
             }
         }
