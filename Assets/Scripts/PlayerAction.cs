@@ -26,7 +26,7 @@ public class PlayerAction : MonoBehaviour
     public bool randomMode;
     public float curTime;
     WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
-    public float timer;
+    //public float timer;
     public bool isTimeOver;
     public Image attackIcon;
     public Color pressedColor;
@@ -149,7 +149,7 @@ public class PlayerAction : MonoBehaviour
         isDead = true;
         anim.SetTrigger("doDie");
         StopCoroutine(dotdamage());
-        StopCoroutine(startTimer());
+       // StopCoroutine(startTimer());
         //GameManager.GM.setGameOver();
         //resetPlayer();
     }
@@ -206,28 +206,28 @@ public class PlayerAction : MonoBehaviour
         }
     }
 
-    public IEnumerator startTimer()
-    {
-        curTime = 0;
-        //Debug.Log("start timer");
+    //public IEnumerator startTimer()
+    //{
+    //    curTime = 0;
+    //    //Debug.Log("start timer");
 
-        while (true)
-        {
-            if (curTime < timer)
-            {
-                yield return fixedUpdate;
-                curTime += Time.deltaTime;
-            }
-            else
-            {
-                //Debug.Log("timeover");
-                //GameManager.GM.timeOver = true;
-                isTimeOver = true;
-                yield break;
-            }
-        }
+    //    while (true)
+    //    {
+    //        if (curTime < timer)
+    //        {
+    //            yield return fixedUpdate;
+    //            curTime += Time.deltaTime;
+    //        }
+    //        else
+    //        {
+    //            //Debug.Log("timeover");
+    //            //GameManager.GM.timeOver = true;
+    //            isTimeOver = true;
+    //            yield break;
+    //        }
+    //    }
 
-    }
+    //}
 
     IEnumerator attackCoolTime()
     {
