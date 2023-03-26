@@ -11,15 +11,24 @@ public class BossAction : MonoBehaviour
     public Image hpImg;
     public float skillRange;
     //public float speed;
-    public Transform player;
+    
     public GameObject alert;
     bool isAttacking = false;
     Vector3 velocity;
+    Transform playerTransform;
+    PlayerAction playerAction;
+    NPCAction NPCAction;
+
+    public GameObject player;
+    public GameObject npc;
 
     WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
     void Awake()
     {
         anim = GetComponent<Animator>();
+        playerTransform = player.GetComponent<Transform>();
+        playerAction = player.GetComponent<PlayerAction>();
+        NPCAction = npc.GetComponent<NPCAction>();
     }
 
     private void Start()
@@ -35,7 +44,7 @@ public class BossAction : MonoBehaviour
         if (!isAttacking)
         {
             transform.position
-                    = Vector3.SmoothDamp(transform.position, player.position, ref velocity, 1.8f);
+                    = Vector3.SmoothDamp(transform.position, playerTransform.position, ref velocity, 1.8f);
         }
         
     }
@@ -60,12 +69,30 @@ public class BossAction : MonoBehaviour
         isAttacking = true;
         alert.SetActive(true);
         yield return StartCoroutine(delay(3));
-        Debug.Log("공격");
+
+        Collider2D[] hitColliders = alert.GetComponent<BossAttackCheck>().checkRange();
+
+        foreach (Collider2D collider in hitColliders)
+        {
+            GameObject objectHit = collider.gameObject;
+
+            if (objectHit.CompareTag("Player"))
+            {
+                playerAction.getDamage(5);
+            }
+            else if (objectHit.CompareTag("NPC"))
+            {
+                NPCAction.getDamage(5);
+            }
+        }
+
         alert.SetActive(false);
         isAttacking = false;
 
         Invoke("choosePattern", 10);
     }
+
+  
 
     IEnumerator delay(float delayTime)
     {
@@ -84,27 +111,27 @@ public class BossAction : MonoBehaviour
         }
     }
 
-    IEnumerator bossMove()
-    {
-        while (true)
-        {
+    //IEnumerator bossMove()
+    //{
+    //    while (true)
+    //    {
             
-            Vector3 velocity = Vector3.zero;
-            float distance = Vector2.Distance(transform.position, player.position);
-            yield return new WaitForSeconds(1.5f);
-            while (distance > skillRange)
-            {
-                if (isAttacking) continue;
+    //        Vector3 velocity = Vector3.zero;
+    //        float distance = Vector2.Distance(transform.position, player.position);
+    //        yield return new WaitForSeconds(1.5f);
+    //        while (distance > skillRange)
+    //        {
+    //            if (isAttacking) continue;
 
-                transform.position
-                    = Vector3.SmoothDamp(transform.position, player.position, ref velocity, 1.8f);
-                distance = Vector2.Distance(transform.position, player.position);
-                yield return null;
-            }
-            //Debug.Log("이동 끝");
-            yield return null;
-        }
-    }
+    //            transform.position
+    //                = Vector3.SmoothDamp(transform.position, player.position, ref velocity, 1.8f);
+    //            distance = Vector2.Distance(transform.position, player.position);
+    //            yield return null;
+    //        }
+    //        //Debug.Log("이동 끝");
+    //        yield return null;
+    //    }
+    //}
 
     public void getDamage(float damage)
     {

@@ -109,4 +109,21 @@ public class NPCAction : MonoBehaviour
             isBorder = true;
         }
     }
+
+    public void getDamage(int damage)
+    {
+        //if (isDead || damage <= 0) return;
+
+        curNPCHp -= damage;
+        //Debug.Log(curNPCHp);
+        //anim.SetTrigger("doHit");
+
+        if (curNPCHp <= 0)
+        {
+            curNPCHp = 0;
+            //NPCDie();
+        }
+
+        //hpBarRefresh(curNPCHp);
+    }
 }

@@ -271,8 +271,8 @@ public class PlayerAction : MonoBehaviour
         anim.ResetTrigger("doDie");
         hpBarRefresh(curPlayerHp);
 
-        dotCo = StartCoroutine(dotdamage());
-        timerCo = StartCoroutine(startTimer());
+        //dotCo = StartCoroutine(dotdamage());
+        //timerCo = StartCoroutine(startTimer());
 
         //StartCoroutine(dotdamage());
         //StartCoroutine(startTimer());
