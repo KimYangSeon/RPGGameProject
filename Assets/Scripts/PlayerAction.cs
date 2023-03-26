@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerAction : MonoBehaviour
+public class PlayerAction : CharacterAction
 {
     float h;
     float v;
@@ -127,7 +127,7 @@ public class PlayerAction : MonoBehaviour
         icon.color = origin;
     }
 
-    public void getDamage(int damage)
+    public override void TakeDamage(int damage)
     {
         if (isDead || damage <= 0) return;
 
@@ -201,7 +201,7 @@ public class PlayerAction : MonoBehaviour
         while (true)
         {
             int damage = Random.Range(0, 5);
-            getDamage(damage);
+            TakeDamage(damage);
             yield return new WaitForSeconds(1.0f);
         }
     }

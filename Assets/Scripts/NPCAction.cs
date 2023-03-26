@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPCAction : MonoBehaviour
+public class NPCAction : CharacterAction
 {
     [SerializeField]
     GameObject player;
@@ -110,7 +110,7 @@ public class NPCAction : MonoBehaviour
         }
     }
 
-    public void getDamage(int damage)
+    public override void TakeDamage(int damage)
     {
         //if (isDead || damage <= 0) return;
 

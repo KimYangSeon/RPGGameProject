@@ -18,6 +18,7 @@ public class BossAction : MonoBehaviour
     Transform playerTransform;
     PlayerAction playerAction;
     NPCAction NPCAction;
+    //CharacterAction characterAction;
 
     public GameObject player;
     public GameObject npc;
@@ -29,6 +30,7 @@ public class BossAction : MonoBehaviour
         playerTransform = player.GetComponent<Transform>();
         playerAction = player.GetComponent<PlayerAction>();
         NPCAction = npc.GetComponent<NPCAction>();
+        //characterAction = player.GetComponent<CharacterAction>();
     }
 
     private void Start()
@@ -75,15 +77,17 @@ public class BossAction : MonoBehaviour
         foreach (Collider2D collider in hitColliders)
         {
             GameObject objectHit = collider.gameObject;
+            CharacterAction ch =  objectHit.GetComponent<CharacterAction>();
+            ch.TakeDamage(5);
 
-            if (objectHit.CompareTag("Player"))
-            {
-                playerAction.getDamage(5);
-            }
-            else if (objectHit.CompareTag("NPC"))
-            {
-                NPCAction.getDamage(5);
-            }
+            //if (objectHit.CompareTag("Player"))
+            //{
+            //    playerAction.TakeDamage(5);
+            //}
+            //else if (objectHit.CompareTag("NPC"))
+            //{
+            //    NPCAction.TakeDamage(5);
+            //}
         }
 
         alert.SetActive(false);

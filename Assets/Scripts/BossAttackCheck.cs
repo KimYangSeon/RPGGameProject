@@ -8,7 +8,7 @@ public class BossAttackCheck : MonoBehaviour
 
     public Collider2D[] checkRange()
     {
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 3f, playerLayer);
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 1.5f, playerLayer);
         return hitColliders;
     }
     
