@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BossAction : MonoBehaviour
+public class Boss2Action : MonoBehaviour
 {
     public float curHp;
     public float maxHp;
@@ -11,7 +11,7 @@ public class BossAction : MonoBehaviour
     public Image hpImg;
     public float skillRange;
     //public float speed;
-    
+
     public GameObject alert;
     bool isAttacking = false;
     Vector3 velocity;
@@ -22,6 +22,8 @@ public class BossAction : MonoBehaviour
 
     public GameObject player;
     public GameObject npc;
+    public GameObject boss1Prefab;
+    GameObject boss1;
 
     WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
     void Awake()
@@ -48,26 +50,26 @@ public class BossAction : MonoBehaviour
             transform.position
                     = Vector3.SmoothDamp(transform.position, playerTransform.position, ref velocity, 1.8f);
         }
-        
+
     }
 
-    public void choosePattern()
+    void choosePattern()
     {
         bossPattern(0);
     }
 
-    public void bossPattern(int patternIdx)
+    void bossPattern(int patternIdx)
     {
         switch (patternIdx)
         {
             case 0:
-                StartCoroutine(defaultAttack());
+                summon();
+                //StartCoroutine(defaultAttack());
                 break;
         }
     }
 
-
-    public IEnumerator defaultAttack()
+    IEnumerator defaultAttack()
     {
         isAttacking = true;
         alert.SetActive(true);
@@ -79,7 +81,7 @@ public class BossAction : MonoBehaviour
         foreach (Collider2D collider in hitColliders)
         {
             GameObject objectHit = collider.gameObject;
-            CharacterAction ch =  objectHit.GetComponent<CharacterAction>();
+            CharacterAction ch = objectHit.GetComponent<CharacterAction>();
             ch.TakeDamage(5);
 
             //if (objectHit.CompareTag("Player"))
@@ -98,7 +100,13 @@ public class BossAction : MonoBehaviour
         Invoke("choosePattern", 10);
     }
 
-  
+    public void summon()
+    {
+        boss1 = Instantiate(boss1Prefab);
+        boss1.GetComponent<Boss1MiniAction>().bossPattern(0);
+    }
+
+
 
     IEnumerator delay(float delayTime)
     {
@@ -121,7 +129,7 @@ public class BossAction : MonoBehaviour
     //{
     //    while (true)
     //    {
-            
+
     //        Vector3 velocity = Vector3.zero;
     //        float distance = Vector2.Distance(transform.position, player.position);
     //        yield return new WaitForSeconds(1.5f);
@@ -154,7 +162,4 @@ public class BossAction : MonoBehaviour
     {
         hpImg.fillAmount = hp / maxHp;
     }
-
-
-     
 }

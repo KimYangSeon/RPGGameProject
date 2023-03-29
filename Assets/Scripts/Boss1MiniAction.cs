@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BossAction : MonoBehaviour
+public class Boss1MiniAction : MonoBehaviour
 {
-    public float curHp;
-    public float maxHp;
+    //public float curHp;
+    //public float maxHp;
     Animator anim;
-    public Image hpImg;
+    //public Image hpImg;
     public float skillRange;
     //public float speed;
     
@@ -20,16 +20,16 @@ public class BossAction : MonoBehaviour
     NPCAction NPCAction;
     //CharacterAction characterAction;
 
-    public GameObject player;
-    public GameObject npc;
+    //public GameObject player;
+    //public GameObject npc;
 
     WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
     void Awake()
     {
         anim = GetComponent<Animator>();
-        playerTransform = player.GetComponent<Transform>();
-        playerAction = player.GetComponent<PlayerAction>();
-        NPCAction = npc.GetComponent<NPCAction>();
+        //playerTransform = player.GetComponent<Transform>();
+        //playerAction = player.GetComponent<PlayerAction>();
+        //NPCAction = npc.GetComponent<NPCAction>();
         //characterAction = player.GetComponent<CharacterAction>();
     }
 
@@ -37,17 +37,19 @@ public class BossAction : MonoBehaviour
     {
         //StartCoroutine(bossMove());
         velocity = Vector3.zero;
-        Invoke("choosePattern", 5f);
+        //Invoke("choosePattern", 5f);
 
     }
 
     void Update()
     {
+        /*
         if (!isAttacking)
         {
             transform.position
                     = Vector3.SmoothDamp(transform.position, playerTransform.position, ref velocity, 1.8f);
         }
+        */
         
     }
 
@@ -139,21 +141,21 @@ public class BossAction : MonoBehaviour
     //    }
     //}
 
-    public void getDamage(float damage)
-    {
-        curHp -= damage;
-        anim.SetTrigger("isDamaged");
+    //public void getDamage(float damage)
+    //{
+    //    curHp -= damage;
+    //    anim.SetTrigger("isDamaged");
 
-        if (curHp < 0) curHp = 0;
+    //    if (curHp < 0) curHp = 0;
 
-        Debug.Log(curHp);
-        hpBarRefresh(curHp);
-    }
+    //    Debug.Log(curHp);
+    //    hpBarRefresh(curHp);
+    //}
 
-    void hpBarRefresh(float hp)
-    {
-        hpImg.fillAmount = hp / maxHp;
-    }
+    //void hpBarRefresh(float hp)
+    //{
+    //    hpImg.fillAmount = hp / maxHp;
+    //}
 
 
      
