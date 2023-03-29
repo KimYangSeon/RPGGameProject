@@ -72,6 +72,7 @@ public class BossAction : MonoBehaviour
         alert.SetActive(true);
         yield return StartCoroutine(delay(3));
 
+        anim.SetTrigger("isJumping");
         Collider2D[] hitColliders = alert.GetComponent<BossAttackCheck>().checkRange();
 
         foreach (Collider2D collider in hitColliders)
