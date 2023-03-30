@@ -97,13 +97,24 @@ public class Boss2Action : MonoBehaviour
         alert.SetActive(false);
         isAttacking = false;
 
-        Invoke("choosePattern", 10);
+        Invoke("choosePattern", 5);
     }
 
     public void summon()
     {
-        boss1 = Instantiate(boss1Prefab);
-        boss1.GetComponent<Boss1MiniAction>().bossPattern(0);
+        GameObject[] boss1_mini_array = new GameObject[6];
+        boss1_mini_array[0] = Instantiate(boss1Prefab, new Vector3(-5, 0, 0), Quaternion.identity);
+        boss1_mini_array[1] = Instantiate(boss1Prefab, new Vector3(-3, -2.5f, 0), Quaternion.identity);
+        boss1_mini_array[2] = Instantiate(boss1Prefab, new Vector3(3, -2.5f, 0), Quaternion.identity);
+        boss1_mini_array[3] = Instantiate(boss1Prefab, new Vector3(5, 0, 0), Quaternion.identity);
+        boss1_mini_array[4] = Instantiate(boss1Prefab, new Vector3(3, 2.5f, 0), Quaternion.identity);
+        boss1_mini_array[5] = Instantiate(boss1Prefab, new Vector3(-3, 2.5f, 0), Quaternion.identity);
+        foreach (GameObject bossMini in boss1_mini_array)
+        {
+            bossMini.GetComponent<Boss1MiniAction>().bossPattern(0);
+        }
+
+        Invoke("choosePattern", 5);
     }
 
 

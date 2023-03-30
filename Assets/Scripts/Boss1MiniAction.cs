@@ -9,7 +9,7 @@ public class Boss1MiniAction : MonoBehaviour
     //public float maxHp;
     Animator anim;
     //public Image hpImg;
-    public float skillRange;
+    //public float skillRange;
     //public float speed;
     
     public GameObject alert;
@@ -97,7 +97,8 @@ public class Boss1MiniAction : MonoBehaviour
         alert.SetActive(false);
         isAttacking = false;
 
-        Invoke("choosePattern", 10);
+        Destroy(gameObject);
+        //Invoke("choosePattern", 10);
     }
 
   
