@@ -23,6 +23,7 @@ public class Boss2Action : MonoBehaviour
     public GameObject player;
     public GameObject npc;
     public GameObject boss1Prefab;
+    public GameObject attackPrefab;
     GameObject boss1;
 
     WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
@@ -63,8 +64,8 @@ public class Boss2Action : MonoBehaviour
         switch (patternIdx)
         {
             case 0:
-                summon();
-                //StartCoroutine(defaultAttack());
+                //summon();
+                StartCoroutine(playerTrackingAttack());
                 break;
         }
     }
@@ -116,6 +117,26 @@ public class Boss2Action : MonoBehaviour
 
         Invoke("choosePattern", 5);
     }
+
+    public IEnumerator playerTrackingAttack()
+    {
+        GameObject attackObj = Instantiate(attackPrefab, player.transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(2.0f);
+        // 나중에 BossAttackCheck를 AttackCheck로 변경하기
+        Collider2D[] hitColliders = attackObj.GetComponent<BossAttackCheck>().checkRange();
+
+        foreach (Collider2D collider in hitColliders)
+        {
+            GameObject objectHit = collider.gameObject;
+            CharacterAction ch = objectHit.GetComponent<CharacterAction>();
+            ch.TakeDamage(5);
+        }
+
+        Destroy(attackObj);
+        Invoke("choosePattern", 5);
+    }
+
+
 
 
 
