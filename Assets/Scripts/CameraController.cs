@@ -30,9 +30,9 @@ public class CameraController : MonoBehaviour
     {
         transform.position = playerTransform.position + cameraPos;
 
-        float clampX = Mathf.Clamp(transform.position.x, -minX, minX);
-        float clampY = Mathf.Clamp(transform.position.y, -minY, minY);
+        //float clampX = Mathf.Clamp(transform.position.x, -minX, minX);
+        //float clampY = Mathf.Clamp(transform.position.y, -minY, minY);
 
-        transform.position = new Vector3(clampX, clampY, -10f);
+        //transform.position = new Vector3(clampX, clampY, -10f);
     }
 }
