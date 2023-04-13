@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class CharacterAction : MonoBehaviour
 {
+    public bool isDead;
     public virtual void TakeDamage(int damage)
+    {
+        // Default implementation for taking damage
+        // Can be overridden by child classes
+    }
+
+    public virtual void OnDead()
     {
         // Default implementation for taking damage
         // Can be overridden by child classes

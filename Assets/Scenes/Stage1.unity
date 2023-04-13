@@ -314,7 +314,7 @@ GameObject:
   - component: {fileID: 178145083}
   - component: {fileID: 178145085}
   - component: {fileID: 178145084}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Hp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4253,7 +4253,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 455188139}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.8, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 211821748}
@@ -4261,7 +4261,7 @@ Transform:
   - {fileID: 1594894660}
   - {fileID: 530682372}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &491025892
 GameObject:
@@ -4275,7 +4275,7 @@ GameObject:
   - component: {fileID: 491025896}
   - component: {fileID: 491025895}
   - component: {fileID: 491025894}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: NPC Effect Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4397,6 +4397,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 106139860}
+  - {fileID: 933411973}
   m_Father: {fileID: 455188140}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4432,7 +4433,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.11}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -4443,7 +4444,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.9, y: 1}
+  m_Size: {x: 0.62, y: 0.65}
   m_EdgeRadius: 0
 --- !u!1839735485 &530682375
 Tilemap:
@@ -4516,21 +4517,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3a309da17c2d044e891bce22b46ec71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
   velocity: 200
   rigid: {fileID: 0}
-  isDead: 0
   atk: 1
-  curPlayerHp: 100
-  maxPlayerHp: 100
+  curPlayerHp: 20
+  maxPlayerHp: 20
   playerHpImg:
   - {fileID: 1429310723}
   - {fileID: 611016661}
   coolDownImg: {fileID: 250083031}
   randomMode: 0
   curTime: 0
-  isTimeOver: 0
   attackIcon: {fileID: 313291272}
   pressedColor: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 1}
+  skillIcon: {fileID: 180858715}
   playerHPText: {fileID: 1215618441}
 --- !u!212 &530682378
 SpriteRenderer:
@@ -4594,7 +4595,7 @@ GameObject:
   - component: {fileID: 608139396}
   - component: {fileID: 608139398}
   - component: {fileID: 608139397}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Hp BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4808,6 +4809,145 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 800951402}
   m_CullTransparentMesh: 1
+--- !u!1 &814589585
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 814589586}
+  - component: {fileID: 814589587}
+  - component: {fileID: 814589588}
+  m_Layer: 10
+  m_Name: Ray
+  m_TagString: NPC
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &814589586
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814589585}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1013014651}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &814589587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814589585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f67c7e722ba14acd9153bb4488bff6e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SensorName: RayPerceptionSensor
+  m_DetectableTags: []
+  m_RaysPerDirection: 5
+  m_MaxRayDegrees: 156.6
+  m_SphereCastRadius: 0.5
+  m_RayLength: 240
+  m_RayLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
+  m_ObservationStacks: 1
+  rayHitColor: {r: 1, g: 0, b: 0, a: 1}
+  rayMissColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!61 &814589588
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814589585}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!1 &933411972
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 933411973}
+  - component: {fileID: 933411974}
+  m_Layer: 0
+  m_Name: Collider2
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &933411973
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933411972}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 530682372}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &933411974
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933411972}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &943377411
 GameObject:
   m_ObjectHideFlags: 0
@@ -4885,10 +5025,10 @@ Transform:
   m_GameObject: {fileID: 943377411}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 25, y: 20, z: 1}
+  m_LocalScale: {x: 50, y: 50, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1013014650
 GameObject:
@@ -4907,8 +5047,7 @@ GameObject:
   - component: {fileID: 1013014654}
   - component: {fileID: 1013014653}
   - component: {fileID: 1013014652}
-  - component: {fileID: 1013014660}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: NPC
   m_TagString: NPC
   m_Icon: {fileID: 0}
@@ -4923,11 +5062,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1013014650}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.54, y: 0, z: 0}
+  m_LocalPosition: {x: -2.54, y: 0.43, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 491025893}
   - {fileID: 1534742892}
+  - {fileID: 814589586}
   m_Father: {fileID: 455188140}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4962,6 +5102,7 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 20000
   playerObject: {fileID: 530682371}
+  bossObject: {fileID: 2097907292}
   velocity: 300
 --- !u!114 &1013014654
 MonoBehaviour:
@@ -4976,7 +5117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 1
+    VectorObservationSize: 0
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -4985,9 +5126,9 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: d8604a7378a237749a693d465bf54f5e, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: bcfebda3a388eea4998696320c0b7765, type: 3}
   m_InferenceDevice: 2
-  m_BehaviorType: 1
+  m_BehaviorType: 0
   m_BehaviorName: Healer
   TeamId: 0
   m_UseChildSensors: 1
@@ -5005,6 +5146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56ef6eb59fb2b5e4e8e6ee2ebc8826db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
   player: {fileID: 530682371}
   healEffect: {fileID: 1500391051}
   coolTime: 5
@@ -5012,9 +5154,10 @@ MonoBehaviour:
   defaultHealValue: 20
   skillRange: 2
   distance: 0
-  curNPCHp: 100
-  maxNPCHp: 100
+  curNPCHp: 10
+  maxNPCHp: 10
   isBorder: 0
+  isAttacked: 0
 --- !u!61 &1013014656
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5039,7 +5182,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.9, y: 1}
+  m_Size: {x: 0.51, y: 0.67}
   m_EdgeRadius: 0
 --- !u!1839735485 &1013014657
 Tilemap:
@@ -5151,32 +5294,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1013014660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1013014650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f67c7e722ba14acd9153bb4488bff6e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SensorName: RayPerceptionSensor
-  m_DetectableTags:
-  - Player
-  - Border
-  m_RaysPerDirection: 7
-  m_MaxRayDegrees: 180
-  m_SphereCastRadius: 0.5
-  m_RayLength: 20
-  m_RayLayerMask:
-    serializedVersion: 2
-    m_Bits: 768
-  m_ObservationStacks: 1
-  rayHitColor: {r: 1, g: 0, b: 0, a: 1}
-  rayMissColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1129984117
 GameObject:
   m_ObjectHideFlags: 0
@@ -5545,7 +5662,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1500391052}
   - component: {fileID: 1500391053}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Heal Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5634,7 +5751,7 @@ GameObject:
   - component: {fileID: 1534742895}
   - component: {fileID: 1534742894}
   - component: {fileID: 1534742893}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: NPC Hp Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5786,7 +5903,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1712137348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5985,7 +6102,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -6002,7 +6119,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -6133,6 +6250,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2097907292 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4370513388685408721, guid: 4605c7db178ca1c4c89cbe930600225a, type: 3}
+  m_PrefabInstance: {fileID: 4370513388876242272}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4370513388876242272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6140,8 +6262,44 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 455188140}
     m_Modifications:
+    - target: {fileID: 4370513387784627825, guid: 4605c7db178ca1c4c89cbe930600225a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370513388293414915, guid: 4605c7db178ca1c4c89cbe930600225a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370513388591608795, guid: 4605c7db178ca1c4c89cbe930600225a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370513388627964334, guid: 4605c7db178ca1c4c89cbe930600225a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370513388627964338, guid: 4605c7db178ca1c4c89cbe930600225a, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 1536
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370513388627964338, guid: 4605c7db178ca1c4c89cbe930600225a, type: 3}
+      propertyPath: layersToCheck.m_Bits
+      value: 1536
+      objectReference: {fileID: 0}
     - target: {fileID: 4370513388685408721, guid: 4605c7db178ca1c4c89cbe930600225a, type: 3}
       propertyPath: m_Name
+      value: Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370513388685408721, guid: 4605c7db178ca1c4c89cbe930600225a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370513388685408721, guid: 4605c7db178ca1c4c89cbe930600225a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370513388685408721, guid: 4605c7db178ca1c4c89cbe930600225a, type: 3}
+      propertyPath: m_TagString
       value: Boss
       objectReference: {fileID: 0}
     - target: {fileID: 4370513388685408724, guid: 4605c7db178ca1c4c89cbe930600225a, type: 3}

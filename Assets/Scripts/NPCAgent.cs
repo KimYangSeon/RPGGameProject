@@ -8,8 +8,10 @@ using Unity.MLAgents.Actuators;
 public class NPCAgent : Agent
 {
     public GameObject playerObject;
+    public GameObject bossObject;
     NPCAction npc;
     PlayerAction player;
+    BossAction boss;
     int directionY = 0;
     int directionX = 0;
     Transform playerTransform;
@@ -17,14 +19,17 @@ public class NPCAgent : Agent
     SpriteRenderer sprite;
     Rigidbody2D rigid;
     public float velocity;
+    int _healCnt;
     // Start is called before the first frame update
     void Awake()
     {
         player = playerObject.GetComponent<PlayerAction>();
         playerTransform = playerObject.GetComponent<Transform>();
         npc = gameObject.GetComponent<NPCAction>();
+        boss = bossObject.GetComponent<BossAction>();
         sprite = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
+
     }
 
     public override void OnEpisodeBegin()
@@ -33,15 +38,27 @@ public class NPCAgent : Agent
 
         // 플레이어 리셋
         player.resetPlayer();
-        npc.isBorder = false;
+        //npc.isBorder = false;
         //GameManager.GM.resetManager();
+        npc.isDead = false;
+        npc.curNPCHp = npc.maxNPCHp;
         float x = Random.Range(-8.0f, 8.0f);
         float y = Random.Range(-4.0f, 5.0f);
         transform.localPosition = new Vector3(x, y, 0);
+        _healCnt = 0;
         //Debug.Log("에피소드 시작");
-        
+
 
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            SetReward(1f);
+            EndEpisode();
+        }
+    }
+
 
     public override void CollectObservations(VectorSensor sensor)
     {
@@ -52,6 +69,7 @@ public class NPCAgent : Agent
         //npc.distance = Vector2.Distance(transform.position, player.GetComponent<Transform>().position);
         //sensor.AddObservation(npc.distance);
         //sensor.AddObservation(player.transform.localPosition);
+        //sensor.AddObservation(boss.transform.localPosition);
         //sensor.AddObservation(player.rigid.velocity);
         //sensor.AddObservation(rigid.velocity);
 
@@ -66,7 +84,14 @@ public class NPCAgent : Agent
     public override void OnActionReceived(ActionBuffers actions)
     {
         //Debug.Log(actions.DiscreteActions[0]);
+        
         AgentAction(actions.DiscreteActions);
+        //if (npc.curNPCHp <= 0)
+        //{
+        //    AddReward(-1f);
+        //    EndEpisode();
+        //}
+
         //if (player.isTimeOver)
         //{
         //    //Debug.Log("time over");
@@ -77,10 +102,16 @@ public class NPCAgent : Agent
         if (player.isDead)
         {
             //Debug.Log("player dead");
-            //SetReward(-1f);
+            AddReward(-1f);
             EndEpisode();
         }
 
+        if (npc.isDead)
+        {
+            //Debug.Log("npc dead");
+            AddReward(-0.5f);
+            EndEpisode();
+        }
         //if (npc.distance <= 1)
         //{
         //    SetReward(1.0f);
@@ -89,74 +120,45 @@ public class NPCAgent : Agent
 
         //if (npc.isBorder)
         //{
-        //    AddReward(-1f);
+        //    SetReward(-1f);
         //    EndEpisode();
         //}
-        //else
-        //{
-        //    //AddReward(-0.001f);
-        //}
+
         //float distance = Vector3.Distance(transform.localPosition, playerTransform.localPosition);
-        //if(distance < 1.42f)
+        //if (distance < npc.skillRange-1)
         //{
-        //    SetReward(1.0f);
-        //    //EndEpisode();
+            //SetReward(1f / StepCount);
+            //SetReward(1f);
+            //EndEpisode();
         //}
-        //AddReward(-0.001f);
+
+        //Debug.Log(StepCount);
+        //AddReward(-1 / MaxStep);
     }
 
     public void AgentAction(ActionSegment<int> act)
     {
         var isHeal = act[0];
-        //var dirToGo = Vector3.zero;
-        //var rotateDir = Vector3.zero;
         var forward = act[1];
-        //var rotate = act[2];
 
         if (isHeal == 1)
         {
-            //Debug.Log("?");
-            //float prePlayerHp = player.curPlayerHp;
+            //npc.Healing(npc.defaultHealValue);
 
             if (npc.Healing(npc.defaultHealValue))
             {
-                //Debug.Log("heal");
-                //    //if (prePlayerHp + 5 - player.maxPlayerHp > 0) AddReward(0.1f);
-                //    //else AddReward(1f);
-                //    // 실제로 회복된 값만큼 보상
-                //    // 오버힐량만큼 감점
-                SetReward(1f);
+                //_healCnt++;
+                //SetReward(1f);
                 //EndEpisode();
+                //if (_healCnt == 3)
+                //{
+                //    EndEpisode();
+                //}
+                //AddReward(10 / StepCount);
+                //EndEpisode();
+
             }
-            //else // 쿨타임 일 때 힐 시도하면 감점
-            //{
-            //   // AddReward(-0.001f);
-            //}
-            
-            
-
         }
-        AddReward(-0.0001f);
-
-        //switch (forward)
-        //{
-        //    case 1:
-        //        dirToGo = transform.forward * velocity;
-        //        break;
-        //}
-
-        //switch (rotate)
-        //{
-        //    case 1:
-        //        rotateDir = transform.up * -1f;
-        //        break;
-        //    case 2:
-        //        rotateDir = transform.up * 1f;
-        //        break;
-        //}
-
-        //transform.Rotate(rotateDir, Time.deltaTime * 100f);
-        //rigid.AddForce(dirToGo, ForceMode2D.Force);
 
 
         if (forward == 0)
@@ -184,27 +186,6 @@ public class NPCAgent : Agent
             directionX = 1;
             directionY = 0;
         }
-        //else if (forward == 5)
-        //{
-        //    directionX = 1;
-        //    directionY = -1;
-        //}
-        //else if (forward == 6)
-        //{
-        //    directionX = -1;
-        //    directionY = 0;
-        //}
-        //else if (forward == 7)
-        //{
-        //    directionX = -1;
-        //    directionY = 1;
-        //}
-        //else if (forward == 8)
-        //{
-        //    directionX = -1;
-        //    directionY = -1;
-        //}
-
 
         if (directionX != 0 || directionY != 0)
         {
@@ -215,13 +196,13 @@ public class NPCAgent : Agent
             //    dust.Play();
 
             //}
-            // AddReward(0.0001f);
             dirVec = new Vector2(directionX, directionY).normalized;
             if (directionX < 0) sprite.flipX = true;
             else sprite.flipX = false;
         }
 
-        rigid.velocity = new Vector2(directionX, directionY).normalized * Time.deltaTime * velocity; // 플레이어 이동
+        rigid.velocity = new Vector2(directionX, directionY).normalized * Time.deltaTime * velocity;
+
 
     }
 

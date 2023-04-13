@@ -21,6 +21,7 @@ public class NPCAction : CharacterAction
     public int curNPCHp;
     public int maxNPCHp;
     public bool isBorder;
+    public bool isAttacked;
 
 
     void Start()
@@ -56,8 +57,6 @@ public class NPCAction : CharacterAction
 
     bool enableRange()
     {
-        //float distance = Vector2.Distance(transform.position, player.GetComponent<Transform>().position);
-        //Debug.Log(distance);
         distance = Vector2.Distance(transform.localPosition, player.GetComponent<Transform>().localPosition);
         if (distance > skillRange) return false;
         return true;
@@ -76,7 +75,6 @@ public class NPCAction : CharacterAction
     {
         filledTime = 0f;
         isHealEnable = false;
-        //Debug.Log("ƒ≈∏¿” Ω√¿€");
 
         while (true)
         {
@@ -84,7 +82,6 @@ public class NPCAction : CharacterAction
             {
                 yield return fixedUpdate;
                 filledTime += Time.deltaTime;
-                //Debug.Log(filledTime);
             }
             else
             {
@@ -94,14 +91,12 @@ public class NPCAction : CharacterAction
         }
     }
 
- 
-
     IEnumerator effectDealy()
     {
         yield return new WaitForSeconds(1.0f);
         healEffect.SetActive(false);
     }
-
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag == "Border")
@@ -109,21 +104,31 @@ public class NPCAction : CharacterAction
             isBorder = true;
         }
     }
+    
 
     public override void TakeDamage(int damage)
     {
         //if (isDead || damage <= 0) return;
 
         curNPCHp -= damage;
+        isAttacked = true;
         //Debug.Log(curNPCHp);
         //anim.SetTrigger("doHit");
 
         if (curNPCHp <= 0)
         {
             curNPCHp = 0;
-            //NPCDie();
+            OnDead();
         }
 
         //hpBarRefresh(curNPCHp);
+    }
+
+    public override void OnDead()
+    {
+        if (isDead) return;
+        isDead = true;
+        //anim.SetTrigger("doDie");
+        //StopCoroutine(dotdamage());
     }
 }

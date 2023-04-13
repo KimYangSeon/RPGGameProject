@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerAction : CharacterAction
 {
@@ -13,7 +14,7 @@ public class PlayerAction : CharacterAction
     Vector3 dirVec;
     GameObject scanObject;
     bool isMoving = false;
-    public bool isDead = false;
+    //public bool isDead = false;
     SpriteRenderer sprite;
 
     public float atk;
@@ -27,10 +28,12 @@ public class PlayerAction : CharacterAction
     public float curTime;
     WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
     //public float timer;
-    public bool isTimeOver;
+    //public bool isTimeOver;
     public Image attackIcon;
     public Color pressedColor;
+    public GameObject skillIcon;
     bool isAttackEnable = true;
+    bool isPuzzleStage = false;
 
     Coroutine dotCo;
     Coroutine timerCo;
@@ -51,7 +54,17 @@ public class PlayerAction : CharacterAction
         //resetPlayer();
         //hpBarRefresh(curPlayerHp);
         //StartCoroutine(dotdamage());
-        if(randomMode) StartCoroutine(randomMove());
+        if (randomMode) StartCoroutine(randomMove());
+        if (SceneManager.GetActiveScene().name.Contains("Puzzle"))
+        {
+            isPuzzleStage = true;
+            skillIcon.GetComponentInChildren<Text>().text = "조사\nX";
+        }
+        else
+        {
+            isPuzzleStage = false;
+            skillIcon.GetComponentInChildren<Text>().text = "스킬\nX";
+        }
         //Debug.Log("플레이어 start");
     }
 
@@ -87,13 +100,32 @@ public class PlayerAction : CharacterAction
         }
 
         // scan object
-        if (Input.GetKeyDown(KeyCode.X) && scanObject) Debug.Log(scanObject);
+        if (Input.GetKeyDown(KeyCode.X) && scanObject && isPuzzleStage)
+        {
+            if(scanObject && isPuzzleStage)
+            {
+                Search();
+            }
+            else if (!isPuzzleStage)
+            {
+                // 스킬
+            }
+                
+        }
+
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Attack(scanObject);
+            if(scanObject!=null && scanObject.tag == "Boss")
+                Attack(scanObject);
         }
 
+
+    }
+
+    public void Search()
+    {
+        Debug.Log(scanObject);
     }
 
     IEnumerator randomMove()
@@ -136,22 +168,18 @@ public class PlayerAction : CharacterAction
 
         if (curPlayerHp <= 0) {
             curPlayerHp = 0;
-            playerDie();
+            OnDead();
         } 
 
         hpBarRefresh(curPlayerHp);
     }
 
-    public void playerDie()
+    public override void OnDead()
     {
         if (isDead) return;
-
         isDead = true;
         anim.SetTrigger("doDie");
-        StopCoroutine(dotdamage());
-       // StopCoroutine(startTimer());
-        //GameManager.GM.setGameOver();
-        //resetPlayer();
+        //StopCoroutine(dotdamage());
     }
 
     void hpBarRefresh(int hp)
@@ -170,11 +198,12 @@ public class PlayerAction : CharacterAction
 
         // Debug.DrawRay(rigid.position, dirVec * 1.5f, new Color(0, 1, 0)); // 레이캐스트
 
-        // Boss 레이어만 스캔
-        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1.5f, LayerMask.GetMask("Boss"));
+        // Object 레이어만 스캔
+        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1.5f, LayerMask.GetMask("Object"));
         if (rayHit.collider)
         {
             scanObject = rayHit.collider.gameObject;
+            //Debug.Log(scanObject);
         }
         else scanObject = null;
 
@@ -253,10 +282,12 @@ public class PlayerAction : CharacterAction
     }
     public void resetPlayer()
     {
+        /*
         if(dotCo != null)
             StopCoroutine(dotCo);
         if(timerCo != null)
             StopCoroutine(timerCo);
+        */
 
         float x = Random.Range(-8.0f, 8.0f);
         float y = Random.Range(-4.0f, 5.0f);
@@ -266,7 +297,7 @@ public class PlayerAction : CharacterAction
         curPlayerHp = maxPlayerHp;
         //GameManager.GM.isGameOver = false;
         //GameManager.GM.timeOver = false;
-        isTimeOver = false;
+        //isTimeOver = false;
         isDead = false;
         anim.ResetTrigger("doDie");
         hpBarRefresh(curPlayerHp);

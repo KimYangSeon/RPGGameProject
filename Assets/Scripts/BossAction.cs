@@ -80,7 +80,8 @@ public class BossAction : MonoBehaviour
         {
             GameObject objectHit = collider.gameObject;
             CharacterAction ch =  objectHit.GetComponent<CharacterAction>();
-            ch.TakeDamage(5);
+            if(ch != null)
+                ch.TakeDamage(5);
 
             //if (objectHit.CompareTag("Player"))
             //{
@@ -95,7 +96,7 @@ public class BossAction : MonoBehaviour
         alert.SetActive(false);
         isAttacking = false;
 
-        Invoke("choosePattern", 10);
+        Invoke("choosePattern", 6);
     }
 
   
