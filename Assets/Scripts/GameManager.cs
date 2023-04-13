@@ -4,64 +4,30 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager GM;
-    // Start is called before the first frame update
+    static GameManager _instance;
+    static bool _init = false;
 
     public bool isGameOver = false;
-    public bool timeOver = false;
-    public float timer;
-    public float curTime;
-    WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
-    private void Awake()
-    {
-        if(!GM)
-            GM = this;
-    }
-    void Start()
-    {
-        //timeOver = false;
-        //StartCoroutine(startTimer());
-    }
+    PuzzleManager _puzzle = new PuzzleManager();
+    public static PuzzleManager Puzzle { get { return Instance?._puzzle ; } }
 
-    // Update is called once per frame
-    void Update()
+    
+    public static GameManager Instance
     {
-        
-    }
-
-    public void setGameOver()
-    {
-        isGameOver = true;
-        //Debug.Log("Game Over");
-        //Time.timeScale = 0;
-    }
-
-    public void resetManager()
-    {
-        timeOver = false;
-        StopCoroutine(startTimer());
-        StartCoroutine(startTimer());
-    }
-
-    IEnumerator startTimer()
-    {
-        curTime = 0;
-        Debug.Log("start timer");
-        
-        while (true)
+        get
         {
-            if(curTime < timer)
+            if (_init == false)
             {
-                yield return fixedUpdate;
-                curTime += Time.deltaTime;
+                _init = true;
+                GameObject go = GameObject.Find("GameManager");
+
+                _instance = go.GetComponent<GameManager>();
+                DontDestroyOnLoad(go);
+
             }
-            else
-            {
-                Debug.Log("timeover");
-                timeOver = true;
-                yield return null;
-            }
+            return _instance;
         }
-        
     }
+
+
 }

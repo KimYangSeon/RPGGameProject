@@ -6,27 +6,18 @@ TagManager:
   tags:
   - Border
   - wall
-  - ground
-  - key
   - agent
-  - portal
-  - dragon
-  - lock
-  - badFood
-  - food
-  - pit
-  - goal
   - symbol_X_Goal
   - symbol_O_Goal
   - symbol_O
   - symbol_X
   - switchOff
-  - pyramid
   - stone
   - block
   - target
   - NPC
   - Boss
+  - Star
   layers:
   - Default
   - TransparentFX

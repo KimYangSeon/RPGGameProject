@@ -71,7 +71,7 @@ public class PlayerAction : CharacterAction
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.GM.isGameOver) return;
+        if (GameManager.Instance.isGameOver) return;
         // 플레이어 이동  
         if (!randomMode)
         {
@@ -116,7 +116,7 @@ public class PlayerAction : CharacterAction
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            if(scanObject!=null && scanObject.tag == "Boss")
+            
                 Attack(scanObject);
         }
 
@@ -126,6 +126,11 @@ public class PlayerAction : CharacterAction
     public void Search()
     {
         Debug.Log(scanObject);
+        if (scanObject.tag == "Star")
+        {
+            scanObject.GetComponent<StarObject>().SearchEvent();
+        }
+        
     }
 
     IEnumerator randomMove()
@@ -141,13 +146,19 @@ public class PlayerAction : CharacterAction
     public void Attack(GameObject scanObject)
     {
         StartCoroutine(IconEffect(attackIcon));
-     
-        if (isDead || !isAttackEnable) return;
-
-        StartCoroutine(attackCoolTime());
         anim.SetTrigger("doAttack");
-        if (!scanObject) return;
-        scanObject.GetComponent<BossAction>().getDamage(atk);
+
+        if (isDead || !isAttackEnable) return; // 죽었는지 & 쿨타임 체크
+        if (scanObject != null && scanObject.tag == "Boss")
+        {
+            StartCoroutine(attackCoolTime());
+
+            //if (!scanObject) return;
+            scanObject.GetComponent<BossAction>().getDamage(atk);
+        }
+        
+            
+            
 
     }
 
@@ -266,11 +277,11 @@ public class PlayerAction : CharacterAction
 
         while (true)
         {
-            if (t < 2)
+            if (t < 1)
             {
                 yield return fixedUpdate;
                 t += Time.deltaTime;
-                coolDownImg.fillAmount = (2-t) / 2;
+                coolDownImg.fillAmount = (1-t) / 1;
             }
             else
             {
