@@ -50,21 +50,21 @@ public class NPCAgent : Agent
 
 
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            SetReward(1f);
-            EndEpisode();
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Player")
+    //    {
+    //        //SetReward(1f);
+    //        //EndEpisode();
+    //    }
+    //}
 
 
     public override void CollectObservations(VectorSensor sensor)
     {
         // 플레이어의 hp를 관찰
         sensor.AddObservation(player.curPlayerHp);
-        //sensor.AddObservation(player.maxPlayerHp);
+        sensor.AddObservation(npc.curNPCHp);
 
         //npc.distance = Vector2.Distance(transform.position, player.GetComponent<Transform>().position);
         //sensor.AddObservation(npc.distance);
@@ -109,7 +109,7 @@ public class NPCAgent : Agent
         if (npc.isDead)
         {
             //Debug.Log("npc dead");
-            AddReward(-0.5f);
+            AddReward(-1f);
             EndEpisode();
         }
         //if (npc.distance <= 1)
