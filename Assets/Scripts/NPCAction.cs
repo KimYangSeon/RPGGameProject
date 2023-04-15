@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NPCAction : CharacterAction
 {
@@ -23,6 +24,8 @@ public class NPCAction : CharacterAction
     public bool isBorder;
     public bool isAttacked;
 
+    public Image npcHpImg;
+
 
     void Start()
     {
@@ -36,6 +39,15 @@ public class NPCAction : CharacterAction
     {
         
     }
+
+    void hpBarRefresh(int hp)
+    {
+
+        npcHpImg.fillAmount = (float)hp / maxNPCHp;
+        
+
+    }
+
 
     public bool Healing(int value)
     {
@@ -121,7 +133,7 @@ public class NPCAction : CharacterAction
             OnDead();
         }
 
-        //hpBarRefresh(curNPCHp);
+        hpBarRefresh(curNPCHp);
     }
 
     public override void OnDead()

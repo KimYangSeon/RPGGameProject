@@ -10,7 +10,7 @@ public class BossAction : MonoBehaviour
     Animator anim;
     public Image hpImg;
     public float skillRange;
-    //public float speed;
+    public float speed;
     
     public GameObject alert;
     bool isAttacking = false;
@@ -35,10 +35,13 @@ public class BossAction : MonoBehaviour
 
     private void Start()
     {
-        //StartCoroutine(bossMove());
         velocity = Vector3.zero;
         Invoke("choosePattern", 5f);
+    }
 
+    IEnumerator BossWait()
+    {
+        yield return new WaitForSeconds(3.0f);
     }
 
     void Update()
@@ -46,7 +49,8 @@ public class BossAction : MonoBehaviour
         if (!isAttacking)
         {
             transform.position
-                    = Vector3.SmoothDamp(transform.position, playerTransform.position, ref velocity, 1.8f);
+            = Vector3.SmoothDamp(transform.position, playerTransform.position, ref velocity, 1.8f);
+            //transform.position += ((player.transform.position) - (transform.position)).normalized * speed * Time.deltaTime;
         }
         
     }
