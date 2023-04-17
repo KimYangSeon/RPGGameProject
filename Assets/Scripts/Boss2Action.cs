@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Boss2Action : MonoBehaviour
+public class Boss2Action : BossAction
 {
-    public float curHp;
-    public float maxHp;
+    //public float curHp;
+    //public float maxHp;
     Animator anim;
-    public Image hpImg;
-    public float skillRange;
+    //public Image hpImg;
+    //public float skillRange;
     //public float speed;
 
-    public GameObject alert;
+    //public GameObject alert;
     bool isAttacking = false;
     Vector3 velocity;
     Transform playerTransform;
@@ -20,10 +20,10 @@ public class Boss2Action : MonoBehaviour
     NPCAction NPCAction;
     //CharacterAction characterAction;
 
-    public GameObject player;
-    public GameObject npc;
-    public GameObject boss1Prefab;
-    public GameObject attackPrefab;
+    //public GameObject player;
+    //public GameObject npc;
+    //public GameObject boss1Prefab;
+    //public GameObject attackPrefab;
     GameObject boss1;
 
     WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
@@ -84,15 +84,6 @@ public class Boss2Action : MonoBehaviour
             GameObject objectHit = collider.gameObject;
             CharacterAction ch = objectHit.GetComponent<CharacterAction>();
             ch.TakeDamage(5);
-
-            //if (objectHit.CompareTag("Player"))
-            //{
-            //    playerAction.TakeDamage(5);
-            //}
-            //else if (objectHit.CompareTag("NPC"))
-            //{
-            //    NPCAction.TakeDamage(5);
-            //}
         }
 
         alert.SetActive(false);
@@ -100,7 +91,7 @@ public class Boss2Action : MonoBehaviour
 
         Invoke("choosePattern", 5);
     }
-
+    /*
     public void summon()
     {
         GameObject[] boss1_mini_array = new GameObject[6];
@@ -117,7 +108,8 @@ public class Boss2Action : MonoBehaviour
 
         Invoke("choosePattern", 5);
     }
-
+    */
+    /*
     public IEnumerator playerTrackingAttack()
     {
         GameObject attackObj = Instantiate(attackPrefab, player.transform.position, Quaternion.identity);
@@ -135,10 +127,7 @@ public class Boss2Action : MonoBehaviour
         Destroy(attackObj);
         Invoke("choosePattern", 5);
     }
-
-
-
-
+    */
 
     IEnumerator delay(float delayTime)
     {
@@ -157,28 +146,7 @@ public class Boss2Action : MonoBehaviour
         }
     }
 
-    //IEnumerator bossMove()
-    //{
-    //    while (true)
-    //    {
-
-    //        Vector3 velocity = Vector3.zero;
-    //        float distance = Vector2.Distance(transform.position, player.position);
-    //        yield return new WaitForSeconds(1.5f);
-    //        while (distance > skillRange)
-    //        {
-    //            if (isAttacking) continue;
-
-    //            transform.position
-    //                = Vector3.SmoothDamp(transform.position, player.position, ref velocity, 1.8f);
-    //            distance = Vector2.Distance(transform.position, player.position);
-    //            yield return null;
-    //        }
-    //        //Debug.Log("¿Ãµø ≥°");
-    //        yield return null;
-    //    }
-    //}
-
+    /*
     public void getDamage(float damage)
     {
         curHp -= damage;
@@ -189,9 +157,10 @@ public class Boss2Action : MonoBehaviour
         Debug.Log(curHp);
         hpBarRefresh(curHp);
     }
-
+    */
+    /*
     void hpBarRefresh(float hp)
     {
         hpImg.fillAmount = hp / maxHp;
-    }
+    }*/
 }

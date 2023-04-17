@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4370513387784627829}
   - component: {fileID: 4370513387784627828}
   - component: {fileID: 4370513387784627827}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Boss Hp Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 4370513388293414916}
   - component: {fileID: 4370513388293414918}
   - component: {fileID: 4370513388293414917}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Hp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: 4370513388591608796}
   - component: {fileID: 4370513388591608798}
   - component: {fileID: 4370513388591608797}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Hp BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 4370513388627964336}
   - component: {fileID: 4370513388627964338}
   - component: {fileID: 4370513388627964337}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Alert
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,7 +279,7 @@ Transform:
   m_GameObject: {fileID: 4370513388627964334}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.3, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 6, y: 6, z: 1}
   m_Children: []
   m_Father: {fileID: 4370513388685408724}
   m_RootOrder: 1
@@ -347,10 +347,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 200ca4af044400b4dbb92332bf41158a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLayer:
+  layersToCheck:
     serializedVersion: 2
-    m_Bits: 512
-  skillRadius: 1.5
+    m_Bits: 1536
+  skillRadius: 3
 --- !u!58 &4370513388627964337
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -380,9 +380,9 @@ GameObject:
   - component: {fileID: 4370513388685408722}
   - component: {fileID: 4370513388685408725}
   - component: {fileID: 4370513388685408726}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Boss1
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -394,7 +394,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4370513388685408721}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -497,7 +497,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.2, y: 1.3}
+  m_Size: {x: 2.56, y: 1.67}
   m_EdgeRadius: 0
 --- !u!114 &4370513388685408726
 MonoBehaviour:
@@ -515,6 +515,7 @@ MonoBehaviour:
   maxHp: 100
   hpImg: {fileID: 4370513388293414917}
   skillRange: 2
+  speed: 3
   alert: {fileID: 4370513388627964334}
   player: {fileID: 0}
   npc: {fileID: 0}

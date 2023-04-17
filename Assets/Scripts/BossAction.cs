@@ -11,7 +11,8 @@ public class BossAction : MonoBehaviour
     public Image hpImg;
     public float skillRange;
     public float speed;
-    
+    public GameObject attackPrefab;
+
     public GameObject alert;
     bool isAttacking = false;
     Vector3 velocity;
@@ -19,9 +20,13 @@ public class BossAction : MonoBehaviour
     PlayerAction playerAction;
     NPCAction NPCAction;
     //CharacterAction characterAction;
+    public int BossNum;
+    public GameObject boss1MiniPrefab;
 
     public GameObject player;
     public GameObject npc;
+
+    public GameObject DonutAlert;
 
     WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
     void Awake()
@@ -57,7 +62,23 @@ public class BossAction : MonoBehaviour
 
     public void choosePattern()
     {
-        bossPattern(0);
+        if (BossNum == 1)
+        {
+            bossPattern(0);
+        }
+        else if (BossNum == 2)
+        {
+            bossPattern(1);
+        }
+        else if (BossNum == 3)
+        {
+            bossPattern(2);
+        }
+        else if (BossNum == 4)
+        {
+            bossPattern(3);
+        }
+
     }
 
     public void bossPattern(int patternIdx)
@@ -66,6 +87,15 @@ public class BossAction : MonoBehaviour
         {
             case 0:
                 StartCoroutine(defaultAttack());
+                break;
+            case 1:
+                StartCoroutine(playerTrackingAttack());
+                break;
+            case 2:
+                summon();
+                break;
+            case 3:
+                StartCoroutine(DonutAttack());
                 break;
         }
     }
@@ -82,19 +112,11 @@ public class BossAction : MonoBehaviour
 
         foreach (Collider2D collider in hitColliders)
         {
+            if (collider == null) continue;
             GameObject objectHit = collider.gameObject;
             CharacterAction ch =  objectHit.GetComponent<CharacterAction>();
             if(ch != null)
                 ch.TakeDamage(5);
-
-            //if (objectHit.CompareTag("Player"))
-            //{
-            //    playerAction.TakeDamage(5);
-            //}
-            //else if (objectHit.CompareTag("NPC"))
-            //{
-            //    NPCAction.TakeDamage(5);
-            //}
         }
 
         alert.SetActive(false);
@@ -103,7 +125,26 @@ public class BossAction : MonoBehaviour
         Invoke("choosePattern", 6);
     }
 
-  
+    public IEnumerator playerTrackingAttack()
+    {
+        GameObject attackObj = Instantiate(attackPrefab, player.transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(2.0f);
+        // 나중에 BossAttackCheck를 AttackCheck로 변경하기
+        Collider2D[] hitColliders = attackObj.GetComponent<BossAttackCheck>().checkRange();
+
+        foreach (Collider2D collider in hitColliders)
+        {
+            if (collider == null) continue;
+            GameObject objectHit = collider.gameObject;
+            CharacterAction ch = objectHit.GetComponent<CharacterAction>();
+            ch.TakeDamage(5);
+        }
+
+        Destroy(attackObj);
+        Invoke("choosePattern", 5);
+    }
+
+
 
     IEnumerator delay(float delayTime)
     {
@@ -122,27 +163,6 @@ public class BossAction : MonoBehaviour
         }
     }
 
-    //IEnumerator bossMove()
-    //{
-    //    while (true)
-    //    {
-            
-    //        Vector3 velocity = Vector3.zero;
-    //        float distance = Vector2.Distance(transform.position, player.position);
-    //        yield return new WaitForSeconds(1.5f);
-    //        while (distance > skillRange)
-    //        {
-    //            if (isAttacking) continue;
-
-    //            transform.position
-    //                = Vector3.SmoothDamp(transform.position, player.position, ref velocity, 1.8f);
-    //            distance = Vector2.Distance(transform.position, player.position);
-    //            yield return null;
-    //        }
-    //        //Debug.Log("이동 끝");
-    //        yield return null;
-    //    }
-    //}
 
     public void getDamage(float damage)
     {
@@ -160,6 +180,46 @@ public class BossAction : MonoBehaviour
         hpImg.fillAmount = hp / maxHp;
     }
 
+    public void summon()
+    {
+        GameObject[] boss1_mini_array = new GameObject[6];
+        boss1_mini_array[0] = Instantiate(boss1MiniPrefab, new Vector3(-5, 0, 0), Quaternion.identity);
+        boss1_mini_array[1] = Instantiate(boss1MiniPrefab, new Vector3(-3, -2.5f, 0), Quaternion.identity);
+        boss1_mini_array[2] = Instantiate(boss1MiniPrefab, new Vector3(3, -2.5f, 0), Quaternion.identity);
+        boss1_mini_array[3] = Instantiate(boss1MiniPrefab, new Vector3(5, 0, 0), Quaternion.identity);
+        boss1_mini_array[4] = Instantiate(boss1MiniPrefab, new Vector3(3, 2.5f, 0), Quaternion.identity);
+        boss1_mini_array[5] = Instantiate(boss1MiniPrefab, new Vector3(-3, 2.5f, 0), Quaternion.identity);
+        foreach (GameObject bossMini in boss1_mini_array)
+        {
+            bossMini.GetComponent<Boss1MiniAction>().bossPattern(0);
+        }
 
-     
+        Invoke("choosePattern", 5);
+    }
+
+    public IEnumerator DonutAttack()
+    {
+        isAttacking = true;
+        DonutAlert.SetActive(true);
+        yield return StartCoroutine(delay(1));
+
+        anim.SetTrigger("isJumping");
+        Collider2D[] hitColliders = DonutAlert.GetComponent<BossAttackCheck>().checkRange();
+
+        foreach (Collider2D collider in hitColliders)
+        {
+            if (collider == null) continue;
+            GameObject objectHit = collider.gameObject;
+            CharacterAction ch = objectHit.GetComponent<CharacterAction>();
+            if (ch != null)
+                ch.TakeDamage(5);
+        }
+
+        DonutAlert.SetActive(false);
+        isAttacking = false;
+
+        Invoke("choosePattern", 6);
+    }
+
+
 }
