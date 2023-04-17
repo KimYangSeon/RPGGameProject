@@ -5,11 +5,13 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 
-public class NPCAgent : Agent
+public class NPCDealerAgent : Agent
 {
+    GameObject scanObject;
+
     public GameObject playerObject;
     public GameObject bossObject;
-    NPCAction npc;
+    NPCDealerAction npc;
     PlayerAction player;
     BossAction boss;
     int directionY = 0;
@@ -19,17 +21,30 @@ public class NPCAgent : Agent
     SpriteRenderer sprite;
     Rigidbody2D rigid;
     public float velocity;
-    int _healCnt;
+   // int _healCnt;
     // Start is called before the first frame update
     void Awake()
     {
         player = playerObject.GetComponent<PlayerAction>();
         playerTransform = playerObject.GetComponent<Transform>();
-        npc = gameObject.GetComponent<NPCAction>();
+        npc = gameObject.GetComponent<NPCDealerAction>();
         boss = bossObject.GetComponent<BossAction>();
         sprite = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
 
+    }
+
+    void Update()
+    {
+
+        // Object 레이어만 스캔
+        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirVec, 1.5f, LayerMask.GetMask("Object"));
+        if (rayHit.collider)
+        {
+            scanObject = rayHit.collider.gameObject;
+            //Debug.Log(scanObject);
+        }
+        else scanObject = null;
     }
 
     public override void OnEpisodeBegin()
@@ -37,7 +52,7 @@ public class NPCAgent : Agent
         // 새로운 에피소드 시작
 
         // 플레이어 리셋
-        player.resetPlayer();
+        //player.resetPlayer();
         //npc.isBorder = false;
         //GameManager.GM.resetManager();
         npc.isDead = false;
@@ -45,26 +60,19 @@ public class NPCAgent : Agent
         float x = Random.Range(-8.0f, 8.0f);
         float y = Random.Range(-4.0f, 5.0f);
         transform.localPosition = new Vector3(x, y, 0);
-        _healCnt = 0;
+        //_healCnt = 0;
         //Debug.Log("에피소드 시작");
 
 
     }
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.tag == "Player")
-    //    {
-    //        //SetReward(1f);
-    //        //EndEpisode();
-    //    }
-    //}
 
 
     public override void CollectObservations(VectorSensor sensor)
     {
         // 플레이어의 hp를 관찰
-        sensor.AddObservation(player.curPlayerHp);
-        sensor.AddObservation(npc.curNPCHp);
+        // sensor.AddObservation(player.curPlayerHp);
+        //sensor.AddObservation(npc.curNPCHp);
+        //sensor.AddObservation(npc.curNPCHp);
 
         //npc.distance = Vector2.Distance(transform.position, player.GetComponent<Transform>().position);
         //sensor.AddObservation(npc.distance);
@@ -86,18 +94,6 @@ public class NPCAgent : Agent
         //Debug.Log(actions.DiscreteActions[0]);
         
         AgentAction(actions.DiscreteActions);
-        //if (npc.curNPCHp <= 0)
-        //{
-        //    AddReward(-1f);
-        //    EndEpisode();
-        //}
-
-        //if (player.isTimeOver)
-        //{
-        //    //Debug.Log("time over");
-        //    SetReward(1.0f);
-        //    EndEpisode();
-        //}
 
         if (player.isDead)
         {
@@ -112,41 +108,26 @@ public class NPCAgent : Agent
             AddReward(-1f);
             EndEpisode();
         }
-        //if (npc.distance <= 1)
-        //{
-        //    SetReward(1.0f);
-        //    EndEpisode();
-        //}
 
-        //if (npc.isBorder)
-        //{
-        //    SetReward(-1f);
-        //    EndEpisode();
-        //}
+        if (boss.isDead)
+        {
+            SetReward(1f);
+            EndEpisode();
+        }
 
-        //float distance = Vector3.Distance(transform.localPosition, playerTransform.localPosition);
-        //if (distance < npc.skillRange-1)
-        //{
-            //SetReward(1f / StepCount);
-            //SetReward(1f);
-            //EndEpisode();
-        //}
-
-        //Debug.Log(StepCount);
-        //AddReward(-1 / MaxStep);
     }
 
     public void AgentAction(ActionSegment<int> act)
     {
-        var isHeal = act[0];
+        var isAttack = act[0];
         var forward = act[1];
 
-        if (isHeal == 1)
+        if (isAttack == 1)
         {
             //npc.Healing(npc.defaultHealValue);
 
-            if (npc.Healing(npc.defaultHealValue))
-            {
+            npc.Attack(scanObject);
+            
                 //_healCnt++;
                 //SetReward(1f);
                 //EndEpisode();
@@ -157,7 +138,7 @@ public class NPCAgent : Agent
                 //AddReward(10 / StepCount);
                 //EndEpisode();
 
-            }
+            
         }
 
 
@@ -189,15 +170,8 @@ public class NPCAgent : Agent
 
         if (directionX != 0 || directionY != 0)
         {
-            //if (!isMoving)
-            //{
-            //    isMoving = true;
-            //    anim.SetBool("isMoving", isMoving);
-            //    dust.Play();
-
-            //}
             dirVec = new Vector2(directionX, directionY).normalized;
-            if (directionX > 0) sprite.flipX = true;
+            if (directionX < 0) sprite.flipX = true;
             else sprite.flipX = false;
         }
 
@@ -212,26 +186,13 @@ public class NPCAgent : Agent
         discreteActionsOut.Clear();
         if (Input.GetKey(KeyCode.H))
         {
-            discreteActionsOut[0] = 0;
+            discreteActionsOut[0] = 1;
         }
 
-        //if (Input.GetKey(KeyCode.W))
-        //{
-        //    discreteActionsOut[1] = 1;
-        //}
-
-        //if (Input.GetKey(KeyCode.A))
-        //{
-        //    discreteActionsOut[2] = 1;
-        //}
-
-        //if (Input.GetKey(KeyCode.D))
-        //{
-        //    discreteActionsOut[2] = 2;
-        //}
 
         if (Input.GetKey(KeyCode.W))
         {
+            //Debug.Log("???");
             discreteActionsOut[1] = 1;
         }
         else if (Input.GetKey(KeyCode.S))
@@ -246,23 +207,6 @@ public class NPCAgent : Agent
         {
             discreteActionsOut[1] = 4;
         }
-        //else if (Input.GetKey(KeyCode.C))
-        //{
-        //    discreteActionsOut[1] = 5;
-        //}
-        //else if (Input.GetKey(KeyCode.A))
-        //{
-        //    discreteActionsOut[1] = 6;
-        //}
-        //else if (Input.GetKey(KeyCode.Q))
-        //{
-        //    discreteActionsOut[1] = 7;
-        //}
-        //else if (Input.GetKey(KeyCode.Z))
-        //{
-        //    discreteActionsOut[1] = 8;
-        //}
-
 
 
     }

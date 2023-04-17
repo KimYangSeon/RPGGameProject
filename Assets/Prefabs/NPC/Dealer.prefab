@@ -1,5 +1,61 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &434543400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 434543401}
+  - component: {fileID: 434543403}
+  m_Layer: 10
+  m_Name: Alert Ray
+  m_TagString: NPC
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &434543401
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434543400}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 775103021673093394}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &434543403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434543400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f67c7e722ba14acd9153bb4488bff6e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SensorName: AlertSensor
+  m_DetectableTags:
+  - Alert
+  m_RaysPerDirection: 4
+  m_MaxRayDegrees: 156.6
+  m_SphereCastRadius: 0.5
+  m_RayLength: 13
+  m_RayLayerMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  m_ObservationStacks: 1
+  rayHitColor: {r: 0.35292807, g: 0.43557906, b: 0.9716981, a: 1}
+  rayMissColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &775103019945764866
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,7 +429,6 @@ GameObject:
   m_Component:
   - component: {fileID: 775103021482041339}
   - component: {fileID: 775103021482041338}
-  - component: {fileID: 775103021482041341}
   m_Layer: 10
   m_Name: Ray
   m_TagString: NPC
@@ -408,43 +463,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SensorName: RayPerceptionSensor
-  m_DetectableTags: []
+  m_DetectableTags:
+  - Boss
   m_RaysPerDirection: 5
   m_MaxRayDegrees: 156.6
   m_SphereCastRadius: 0.5
   m_RayLength: 13
   m_RayLayerMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 64
   m_ObservationStacks: 1
   rayHitColor: {r: 1, g: 0, b: 0, a: 1}
   rayMissColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!61 &775103021482041341
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 775103021482041336}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!1 &775103021673093395
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,10 +488,10 @@ GameObject:
   - component: {fileID: 775103021673093611}
   - component: {fileID: 775103021673093608}
   - component: {fileID: 775103021673093609}
-  - component: {fileID: 775103021673093398}
   - component: {fileID: 775103021673093399}
-  - component: {fileID: 775103021673093396}
   - component: {fileID: 775103021673093397}
+  - component: {fileID: 678472712}
+  - component: {fileID: 678472713}
   m_Layer: 10
   m_Name: Dealer
   m_TagString: NPC
@@ -483,6 +513,7 @@ Transform:
   - {fileID: 775103021117672588}
   - {fileID: 775103019945764869}
   - {fileID: 775103021482041339}
+  - {fileID: 434543401}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -526,7 +557,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 99
-  m_Sprite: {fileID: -6685782176977451322, guid: 4d701fb8bab94204e92af20e3e7b6a8a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6707cbda9ef3e3c47aabe927128ef62a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -613,7 +644,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.95, y: 0.85}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.9, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -622,31 +653,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.51, y: 0.67}
   m_EdgeRadius: 0
---- !u!114 &775103021673093398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 775103021673093395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56ef6eb59fb2b5e4e8e6ee2ebc8826db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDead: 0
-  player: {fileID: 0}
-  healEffect: {fileID: 775103019978547170}
-  coolTime: 5
-  filledTime: 0
-  defaultHealValue: 20
-  skillRange: 2
-  distance: 0
-  curNPCHp: 20
-  maxNPCHp: 20
-  isBorder: 0
-  isAttacked: 0
-  npcHpImg: {fileID: 775103021315472981}
 --- !u!114 &775103021673093399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,7 +666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 2
+    VectorObservationSize: 0
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -669,33 +675,14 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: d0070c195866396488f58484af69088d, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 2
-  m_BehaviorType: 2
-  m_BehaviorName: Healer
+  m_BehaviorType: 1
+  m_BehaviorName: Dealer
   TeamId: 0
   m_UseChildSensors: 1
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
---- !u!114 &775103021673093396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 775103021673093395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d09d6ae7abb826d478baa4ec88982bc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 20000
-  playerObject: {fileID: 0}
-  bossObject: {fileID: 0}
-  velocity: 300
 --- !u!114 &775103021673093397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -710,6 +697,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DecisionPeriod: 5
   TakeActionsBetweenDecisions: 1
+--- !u!114 &678472712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775103021673093395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 250ac27d5d7c18441a23bd228f7b3828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  playerObject: {fileID: 0}
+  bossObject: {fileID: 0}
+  velocity: 0
+--- !u!114 &678472713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775103021673093395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af6468f44d7bf1444bc94ea046b3121e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDead: 0
+  player: {fileID: 0}
+  coolTime: 5
+  filledTime: 0
+  defaultHealValue: 20
+  skillRange: 0
+  distance: 0
+  curNPCHp: 50
+  maxNPCHp: 50
+  isBorder: 0
+  isAttacked: 0
+  npcHpImg: {fileID: 775103021315472981}
+  atk: 0
+  rigid: {fileID: 0}
 --- !u!1 &775103021812417002
 GameObject:
   m_ObjectHideFlags: 0
