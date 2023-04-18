@@ -15,20 +15,27 @@ MonoBehaviour:
   icon: {fileID: 2800000, guid: 71ded8f6cdc30b14aa6ff9cc311ed0c7, type: 3}
   title: Top-Down 2D RPG
   sections:
-  - heading: 탑다운 RPG (Top-Down RPG)
-    text: '탑 뷰 시점으로 상하좌우 움직이며 NPC와 대화하면서 스토리를 진행하는 장르입니다.'
+  - heading: "\uD0D1\uB2E4\uC6B4 RPG (Top-Down RPG)"
+    text: "\uD0D1 \uBDF0 \uC2DC\uC810\uC73C\uB85C \uC0C1\uD558\uC88C\uC6B0 \uC6C0\uC9C1\uC774\uBA70
+      NPC\uC640 \uB300\uD654\uD558\uBA74\uC11C \uC2A4\uD1A0\uB9AC\uB97C \uC9C4\uD589\uD558\uB294
+      \uC7A5\uB974\uC785\uB2C8\uB2E4."
     linkText: 
-    url: 	
+    url: 
   - heading: 
-    text: '골드메탈 기초 강좌 BE3 진행에 필요한 에셋 팩으로 캐릭터와 각종 지형 타일 스프라이트를 포함하고 있습니다.'
-    linkText: BE3 강좌 재생목록
+    text: "\uACE8\uB4DC\uBA54\uD0C8 \uAE30\uCD08 \uAC15\uC88C BE3 \uC9C4\uD589\uC5D0
+      \uD544\uC694\uD55C \uC5D0\uC14B \uD329\uC73C\uB85C \uCE90\uB9AD\uD130\uC640
+      \uAC01\uC885 \uC9C0\uD615 \uD0C0\uC77C \uC2A4\uD504\uB77C\uC774\uD2B8\uB97C
+      \uD3EC\uD568\uD558\uACE0 \uC788\uC2B5\uB2C8\uB2E4."
+    linkText: "BE3 \uAC15\uC88C \uC7AC\uC0DD\uBAA9\uB85D"
     url: https://www.youtube.com/playlist?list=PLO-mt5Iu5TeYfyXsi6kzHK8kfjPvadC5u
   - heading: 
-    text: '골드메탈 출저만 표기하는 전제 하에 자유롭게 사용 가능합니다. (상용 가능)'
-    linkText: 골드메탈 스튜디오
+    text: "\uACE8\uB4DC\uBA54\uD0C8 \uCD9C\uC800\uB9CC \uD45C\uAE30\uD558\uB294 \uC804\uC81C
+      \uD558\uC5D0 \uC790\uC720\uB86D\uAC8C \uC0AC\uC6A9 \uAC00\uB2A5\uD569\uB2C8\uB2E4.
+      (\uC0C1\uC6A9 \uAC00\uB2A5)"
+    linkText: "\uACE8\uB4DC\uBA54\uD0C8 \uC2A4\uD29C\uB514\uC624"
     url: https://www.goldmetal.co.kr
   - heading: 
-    text: 'Copyright ⓒ 2021 Goldmetal'
-    linkText:
-    url:
+    text: "Copyright \u24D2 2021 Goldmetal"
+    linkText: 
+    url: 
   loadedLayout: 1

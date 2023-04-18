@@ -20,6 +20,26 @@ TagManager:
   - Star
   - Alert
   - DonutAlert
+  - ground
+  - pyramid
+  - pit
+  - goal
+  - key
+  - walkableSurface
+  - blueGoal
+  - purpleGoal
+  - purpleAgent
+  - blueAgent
+  - ball
+  - badFood
+  - food
+  - blockLarge
+  - blockSmall
+  - blockVeryLarge
+  - lock
+  - dragon
+  - portal
+  - tile
   layers:
   - Default
   - TransparentFX

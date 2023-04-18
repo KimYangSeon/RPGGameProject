@@ -34,16 +34,25 @@ public class BossAction : MonoBehaviour
         _npcTransform = npc.GetComponent<Transform>();
     }
 
-    private void Start()
+    void Start()
     {
         velocity = Vector3.zero;
-        Invoke("choosePattern", 5f);
+        StartCoroutine(initPattern());
+        
 
+    }
+
+    IEnumerator initPattern()
+    {
+        yield return StartCoroutine(BossWait());
+        Invoke("choosePattern", 5f);
     }
 
     IEnumerator BossWait()
     {
+        isAttacking = true;
         yield return new WaitForSeconds(3.0f);
+        isAttacking = false;
     }
 
     void Update()
@@ -52,12 +61,12 @@ public class BossAction : MonoBehaviour
 
         if (!isAttacking)
         {
-            //transform.position
-           // = Vector3.SmoothDamp(transform.position, playerTransform.position, ref velocity, 1.8f);
+            transform.position
+            = Vector3.SmoothDamp(transform.position, _playerTransform.position, ref velocity, 1.8f);
 
             // npc ÇÐ½À¿ë
-            transform.position
-           = Vector3.SmoothDamp(transform.position, _npcTransform.position, ref velocity, 1.8f);
+            // transform.position
+            //= Vector3.SmoothDamp(transform.position, _npcTransform.position, ref velocity, 1.8f);
 
 
         }
@@ -274,9 +283,22 @@ public class BossAction : MonoBehaviour
 
     void OnDead()
     {
+        Debug.Log("Stage Clear");
         isDead = true;
-        Debug.Log("dead");
+        _anim.SetBool("Dead", isDead);
+        DataManager.Instance.LoadGameData();
+        DataManager.Instance.data.isCleared[BossNum * 2 - 1] = true;
+        DataManager.Instance.SaveGameData();
+        GameManager.Instance.StageClear(BossNum);
+        //StartCoroutine(StageMove.Instance.LoadSceneAfterDelay("Puzzle2", 3.0f));
     }
+
+    public void AfterDead()
+    {
+        gameObject.SetActive(false);
+    }
+
+
 
     public void Reset()
     {

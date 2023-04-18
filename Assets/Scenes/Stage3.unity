@@ -602,11 +602,10 @@ MonoBehaviour:
   curHp: 200
   maxHp: 200
   hpImg: {fileID: 627047781}
-  skillRange: 0
   speed: 0
-  attackPrefab: {fileID: 9197689178572622364, guid: 7c32bda296e542d4d947559f8805a902, type: 3}
-  alert: {fileID: 827108558}
   BossNum: 3
+  alert: {fileID: 827108558}
+  attackPrefab: {fileID: 9197689178572622364, guid: 7c32bda296e542d4d947559f8805a902, type: 3}
   boss1MiniPrefab: {fileID: 4370513388685408721, guid: 40d4666e12c966e40b8d86a18683ff2d, type: 3}
   player: {fileID: 530682371}
   npc: {fileID: 1013014650}

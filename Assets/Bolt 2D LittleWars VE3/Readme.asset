@@ -15,20 +15,28 @@ MonoBehaviour:
   icon: {fileID: 2800000, guid: 90028b86610f4534fbf16fbfb8209762, type: 3}
   title: Bolt Casual Defense LittleWars
   sections:
-  - heading: 캐주얼 디펜스 게임 (Casual Defense Game)
-    text: '재화를 효율적으로 사용해서 유닛을 생산하고 적을 막아내는 장르입니다.'
+  - heading: "\uCE90\uC8FC\uC5BC \uB514\uD39C\uC2A4 \uAC8C\uC784 (Casual Defense
+      Game)"
+    text: "\uC7AC\uD654\uB97C \uD6A8\uC728\uC801\uC73C\uB85C \uC0AC\uC6A9\uD574\uC11C
+      \uC720\uB2DB\uC744 \uC0DD\uC0B0\uD558\uACE0 \uC801\uC744 \uB9C9\uC544\uB0B4\uB294
+      \uC7A5\uB974\uC785\uB2C8\uB2E4."
     linkText: 
-    url: 	
+    url: 
   - heading: 
-    text: '골드메탈 기초 강좌 VE3 진행에 필요한 에셋 팩으로 스프라이트, 애니메이션, 파티클, 사운드와 오픈폰트를 포함하고 있습니다.'
-    linkText: VE3 강좌 재생목록
+    text: "\uACE8\uB4DC\uBA54\uD0C8 \uAE30\uCD08 \uAC15\uC88C VE3 \uC9C4\uD589\uC5D0
+      \uD544\uC694\uD55C \uC5D0\uC14B \uD329\uC73C\uB85C \uC2A4\uD504\uB77C\uC774\uD2B8,
+      \uC560\uB2C8\uBA54\uC774\uC158, \uD30C\uD2F0\uD074, \uC0AC\uC6B4\uB4DC\uC640
+      \uC624\uD508\uD3F0\uD2B8\uB97C \uD3EC\uD568\uD558\uACE0 \uC788\uC2B5\uB2C8\uB2E4."
+    linkText: "VE3 \uAC15\uC88C \uC7AC\uC0DD\uBAA9\uB85D"
     url: https://www.youtube.com/playlist?list=PLO-mt5Iu5TebYBC5jE3u5LyP2D7np0jJf
   - heading: 
-    text: '골드메탈 출저만 표기하는 전제 하에 자유롭게 사용 가능합니다. (상용 가능)'
-    linkText: 골드메탈 스튜디오
+    text: "\uACE8\uB4DC\uBA54\uD0C8 \uCD9C\uC800\uB9CC \uD45C\uAE30\uD558\uB294 \uC804\uC81C
+      \uD558\uC5D0 \uC790\uC720\uB86D\uAC8C \uC0AC\uC6A9 \uAC00\uB2A5\uD569\uB2C8\uB2E4.
+      (\uC0C1\uC6A9 \uAC00\uB2A5)"
+    linkText: "\uACE8\uB4DC\uBA54\uD0C8 \uC2A4\uD29C\uB514\uC624"
     url: https://www.goldmetal.co.kr
   - heading: 
-    text: 'Copyright ⓒ 2021 Goldmetal'
-    linkText:
-    url:
+    text: "Copyright \u24D2 2021 Goldmetal"
+    linkText: 
+    url: 
   loadedLayout: 1

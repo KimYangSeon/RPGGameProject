@@ -538,6 +538,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DealerStage1
       objectReference: {fileID: 0}
+    - target: {fileID: 775103021673093395, guid: cb9b2c938145be24b8f3c281ac38e80d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 775103021673093399, guid: cb9b2c938145be24b8f3c281ac38e80d, type: 3}
       propertyPath: m_Model
       value: 
@@ -4473,7 +4477,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &530682372
 Transform:
   m_ObjectHideFlags: 0
@@ -4609,8 +4613,8 @@ MonoBehaviour:
   velocity: 200
   rigid: {fileID: 0}
   atk: 1
-  curPlayerHp: 100
-  maxPlayerHp: 100
+  curPlayerHp: 50
+  maxPlayerHp: 50
   playerHpImg:
   - {fileID: 1429310723}
   - {fileID: 611016661}
@@ -5425,7 +5429,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'HP 100
+  m_Text: 'HP 50
 
 '
 --- !u!222 &1215618442
@@ -5466,6 +5470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGameOver: 0
+  isStageClear: 0
 --- !u!4 &1283308118
 Transform:
   m_ObjectHideFlags: 0
@@ -6256,7 +6261,7 @@ PrefabInstance:
     - target: {fileID: 1307162852, guid: 7374a7cdbcdd245439e241b513bd28ca, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 1466824337}
+      objectReference: {fileID: 530682371}
     - target: {fileID: 1307162852, guid: 7374a7cdbcdd245439e241b513bd28ca, type: 3}
       propertyPath: DonutAlert
       value: 

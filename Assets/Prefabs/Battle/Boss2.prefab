@@ -148,15 +148,15 @@ MonoBehaviour:
   curHp: 50
   maxHp: 50
   hpImg: {fileID: 6186744637949007990}
-  skillRange: 3
   speed: 3
-  attackPrefab: {fileID: 9197689178572622364, guid: 7c32bda296e542d4d947559f8805a902, type: 3}
-  alert: {fileID: 3062301425393417260}
   BossNum: 2
+  alert: {fileID: 3062301425393417260}
+  attackPrefab: {fileID: 9197689178572622364, guid: 7c32bda296e542d4d947559f8805a902, type: 3}
   boss1MiniPrefab: {fileID: 4370513388685408721, guid: 40d4666e12c966e40b8d86a18683ff2d, type: 3}
   player: {fileID: 0}
   npc: {fileID: 0}
   DonutAlert: {fileID: 6186744638474460275}
+  isDead: 0
 --- !u!1 &6186744637949007984
 GameObject:
   m_ObjectHideFlags: 0

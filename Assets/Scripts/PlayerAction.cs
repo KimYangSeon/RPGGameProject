@@ -125,7 +125,7 @@ public class PlayerAction : CharacterAction
 
     public void Search()
     {
-        Debug.Log(scanObject);
+        ///Debug.Log(scanObject);
         if (scanObject.tag == "Star")
         {
             scanObject.GetComponent<StarObject>().SearchEvent();
@@ -146,11 +146,12 @@ public class PlayerAction : CharacterAction
     public void Attack(GameObject scanObject)
     {
         StartCoroutine(IconEffect(attackIcon));
-        anim.SetTrigger("doAttack");
-
+        
         if (isDead || !isAttackEnable) return; // Á×¾ú´ÂÁö & ÄðÅ¸ÀÓ Ã¼Å©
+        
         if (scanObject != null && scanObject.tag == "Boss")
         {
+            anim.SetTrigger("doAttack");
             StartCoroutine(attackCoolTime());
 
             //if (!scanObject) return;

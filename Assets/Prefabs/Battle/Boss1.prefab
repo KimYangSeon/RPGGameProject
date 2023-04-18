@@ -350,7 +350,6 @@ MonoBehaviour:
   layersToCheck:
     serializedVersion: 2
     m_Bits: 1536
-  skillRadius: 3
 --- !u!58 &4370513388627964337
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -514,8 +513,12 @@ MonoBehaviour:
   curHp: 100
   maxHp: 100
   hpImg: {fileID: 4370513388293414917}
-  skillRange: 2
   speed: 3
+  BossNum: 0
   alert: {fileID: 4370513388627964334}
+  attackPrefab: {fileID: 0}
+  boss1MiniPrefab: {fileID: 0}
   player: {fileID: 0}
   npc: {fileID: 0}
+  DonutAlert: {fileID: 0}
+  isDead: 0

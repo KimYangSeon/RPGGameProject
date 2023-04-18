@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     static bool _init = false;
 
     public bool isGameOver = false;
+    public bool isStageClear = false;
     PuzzleManager _puzzle = new PuzzleManager();
     public static PuzzleManager Puzzle { get { return Instance?._puzzle ; } }
 
@@ -27,6 +28,11 @@ public class GameManager : MonoBehaviour
             }
             return _instance;
         }
+    }
+
+    public void StageClear(int idx) 
+    {
+        StartCoroutine(StageMove.Instance.LoadSceneAfterDelay($"Puzzle{idx+1}", 5.0f));
     }
 
 

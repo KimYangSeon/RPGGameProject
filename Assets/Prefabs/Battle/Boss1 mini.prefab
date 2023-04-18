@@ -99,7 +99,6 @@ MonoBehaviour:
   layersToCheck:
     serializedVersion: 2
     m_Bits: 1536
-  skillRadius: 1.5
 --- !u!58 &4370513388627964337
 CircleCollider2D:
   m_ObjectHideFlags: 0
