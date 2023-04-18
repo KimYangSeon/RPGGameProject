@@ -467,9 +467,9 @@ GameObject:
   - component: {fileID: 211821746}
   - component: {fileID: 211821749}
   - component: {fileID: 211821750}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Boss3
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -557,6 +557,7 @@ Transform:
   m_Children:
   - {fileID: 1123253010}
   - {fileID: 827108559}
+  - {fileID: 1670930914}
   m_Father: {fileID: 455188140}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -595,18 +596,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 211821745}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a32dfc2f4c68ac84e9d757346b312a73, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f8b17103917d604f99f38eb184b6f54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   curHp: 200
   maxHp: 200
   hpImg: {fileID: 627047781}
-  skillRange: 3
-  alert: {fileID: 827108558}
-  player: {fileID: 106139859}
-  npc: {fileID: 1013014650}
-  boss1Prefab: {fileID: 4370513388685408721, guid: 40d4666e12c966e40b8d86a18683ff2d, type: 3}
+  skillRange: 0
+  speed: 0
   attackPrefab: {fileID: 9197689178572622364, guid: 7c32bda296e542d4d947559f8805a902, type: 3}
+  alert: {fileID: 827108558}
+  BossNum: 3
+  boss1MiniPrefab: {fileID: 4370513388685408721, guid: 40d4666e12c966e40b8d86a18683ff2d, type: 3}
+  player: {fileID: 530682371}
+  npc: {fileID: 1013014650}
+  DonutAlert: {fileID: 1670930915}
+  isDead: 0
 --- !u!1 &250083029
 GameObject:
   m_ObjectHideFlags: 0
@@ -4664,9 +4669,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3a309da17c2d044e891bce22b46ec71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
   velocity: 200
   rigid: {fileID: 0}
-  isDead: 0
   atk: 1
   curPlayerHp: 100
   maxPlayerHp: 100
@@ -4676,9 +4681,9 @@ MonoBehaviour:
   coolDownImg: {fileID: 250083031}
   randomMode: 0
   curTime: 0
-  isTimeOver: 0
   attackIcon: {fileID: 313291272}
   pressedColor: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 1}
+  skillIcon: {fileID: 0}
   playerHPText: {fileID: 1215618441}
 --- !u!212 &530682378
 SpriteRenderer:
@@ -4892,7 +4897,7 @@ GameObject:
   - component: {fileID: 627047780}
   - component: {fileID: 627047782}
   - component: {fileID: 627047781}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Hp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5043,9 +5048,9 @@ GameObject:
   - component: {fileID: 827108560}
   - component: {fileID: 827108562}
   - component: {fileID: 827108561}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: Alert
-  m_TagString: Untagged
+  m_TagString: Alert
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5143,10 +5148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 200ca4af044400b4dbb92332bf41158a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLayer:
+  layersToCheck:
     serializedVersion: 2
-    m_Bits: 512
-  skillRadius: 0
+    m_Bits: 0
 --- !u!1 &857337531
 GameObject:
   m_ObjectHideFlags: 0
@@ -5158,7 +5162,7 @@ GameObject:
   - component: {fileID: 857337532}
   - component: {fileID: 857337534}
   - component: {fileID: 857337533}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Hp BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5376,6 +5380,7 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 20000
   playerObject: {fileID: 530682371}
+  bossObject: {fileID: 0}
   velocity: 300
 --- !u!114 &1013014654
 MonoBehaviour:
@@ -5419,6 +5424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56ef6eb59fb2b5e4e8e6ee2ebc8826db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
   player: {fileID: 530682371}
   healEffect: {fileID: 1500391051}
   coolTime: 5
@@ -5429,6 +5435,8 @@ MonoBehaviour:
   curNPCHp: 100
   maxNPCHp: 100
   isBorder: 0
+  isAttacked: 0
+  npcHpImg: {fileID: 0}
 --- !u!61 &1013014656
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5603,7 +5611,7 @@ GameObject:
   - component: {fileID: 1123253013}
   - component: {fileID: 1123253012}
   - component: {fileID: 1123253011}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Boss Hp Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5878,9 +5886,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGameOver: 0
-  timeOver: 0
-  timer: 60
-  curTime: 0
 --- !u!4 &1283308118
 Transform:
   m_ObjectHideFlags: 0
@@ -6283,6 +6288,73 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!1001 &1670930913
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 211821748}
+    m_Modifications:
+    - target: {fileID: 2328656217381226721, guid: 073479569d94f094d964830f2d22c11b, type: 3}
+      propertyPath: m_Name
+      value: Donut Alert
+      objectReference: {fileID: 0}
+    - target: {fileID: 2328656217381226723, guid: 073479569d94f094d964830f2d22c11b, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2328656217381226723, guid: 073479569d94f094d964830f2d22c11b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2328656217381226723, guid: 073479569d94f094d964830f2d22c11b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 2328656217381226723, guid: 073479569d94f094d964830f2d22c11b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2328656217381226723, guid: 073479569d94f094d964830f2d22c11b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2328656217381226723, guid: 073479569d94f094d964830f2d22c11b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2328656217381226723, guid: 073479569d94f094d964830f2d22c11b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2328656217381226723, guid: 073479569d94f094d964830f2d22c11b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2328656217381226723, guid: 073479569d94f094d964830f2d22c11b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2328656217381226723, guid: 073479569d94f094d964830f2d22c11b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2328656217381226723, guid: 073479569d94f094d964830f2d22c11b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 073479569d94f094d964830f2d22c11b, type: 3}
+--- !u!4 &1670930914 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2328656217381226723, guid: 073479569d94f094d964830f2d22c11b, type: 3}
+  m_PrefabInstance: {fileID: 1670930913}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1670930915 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2328656217381226721, guid: 073479569d94f094d964830f2d22c11b, type: 3}
+  m_PrefabInstance: {fileID: 1670930913}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1712137347
 GameObject:
   m_ObjectHideFlags: 0

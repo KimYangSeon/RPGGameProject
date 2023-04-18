@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7576265241930860403}
   m_Layer: 0
   m_Name: Alert
-  m_TagString: Untagged
+  m_TagString: Alert
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,7 +99,6 @@ MonoBehaviour:
   layersToCheck:
     serializedVersion: 2
     m_Bits: 1536
-  skillRadius: 3
 --- !u!58 &7576265241930860403
 CircleCollider2D:
   m_ObjectHideFlags: 0

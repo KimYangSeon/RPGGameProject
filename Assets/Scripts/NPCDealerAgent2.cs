@@ -5,7 +5,7 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 
-public class NPCDealerAgent : Agent
+public class NPCDealerAgent2 : Agent
 {
     GameObject scanObject;
 
@@ -66,7 +66,8 @@ public class NPCDealerAgent : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
-
+        sensor.AddObservation(npc.curNPCHp);
+        sensor.AddObservation(boss.curHp);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -105,6 +106,7 @@ public class NPCDealerAgent : Agent
         if (isAttack == 1)
         {
             npc.Attack(scanObject);
+            AddReward(1f / MaxStep);
         }
 
 

@@ -7,37 +7,31 @@ public class BossAction : MonoBehaviour
 {
     public float curHp;
     public float maxHp;
-    Animator anim;
     public Image hpImg;
-    public float skillRange;
     public float speed;
-    public GameObject attackPrefab;
-
-    public GameObject alert;
-    bool isAttacking = false;
-    Vector3 velocity;
-    Transform playerTransform;
-    PlayerAction playerAction;
-    NPCAction NPCAction;
-    //CharacterAction characterAction;
     public int BossNum;
+    public GameObject alert;
+    public GameObject attackPrefab;
     public GameObject boss1MiniPrefab;
-
     public GameObject player;
     public GameObject npc;
-
     public GameObject DonutAlert;
 
     public bool isDead = false;
 
+    bool isAttacking = false;
+    Vector3 velocity;
+    Transform _playerTransform;
+    Transform _npcTransform;
+    Animator _anim;
+
     WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
+
     void Awake()
     {
-        anim = GetComponent<Animator>();
-        playerTransform = player.GetComponent<Transform>();
-        playerAction = player.GetComponent<PlayerAction>();
-        NPCAction = npc.GetComponent<NPCAction>();
-        //characterAction = player.GetComponent<CharacterAction>();
+        _anim = GetComponent<Animator>();
+        _playerTransform = player.GetComponent<Transform>();
+        _npcTransform = npc.GetComponent<Transform>();
     }
 
     private void Start()
@@ -58,21 +52,18 @@ public class BossAction : MonoBehaviour
 
         if (!isAttacking)
         {
+            //transform.position
+           // = Vector3.SmoothDamp(transform.position, playerTransform.position, ref velocity, 1.8f);
+
+            // npc 학습용
             transform.position
-            = Vector3.SmoothDamp(transform.position, playerTransform.position, ref velocity, 1.8f);
-            //transform.position += ((player.transform.position) - (transform.position)).normalized * speed * Time.deltaTime;
+           = Vector3.SmoothDamp(transform.position, _npcTransform.position, ref velocity, 1.8f);
+
+
         }
     }
 
-    /*
-     보스 2 패턴: 
-    장판 -> 바로 도넛 장판
-    도넛 장판 -> 바로 장판
-    피 50% 이하 되면 플레이어 추적 3번
-
-     */
-
-    public void choosePattern()
+    public virtual void choosePattern()
     {
         if (isDead) return;
 
@@ -134,7 +125,7 @@ public class BossAction : MonoBehaviour
         alert.SetActive(true);
         yield return StartCoroutine(Delay(delayTime));
 
-        anim.SetTrigger("isJumping");
+        _anim.SetTrigger("isJumping");
         Collider2D[] hitColliders = alert.GetComponent<BossAttackCheck>().checkRange();
 
         foreach (Collider2D collider in hitColliders)
@@ -210,9 +201,9 @@ public class BossAction : MonoBehaviour
         if (isDead) return;
 
         curHp -= damage;
-        anim.SetTrigger("isDamaged");
+        _anim.SetTrigger("isDamaged");
 
-        if (curHp < 0)
+        if (curHp <= 0)
         {
             curHp = 0;
             OnDead();
@@ -262,7 +253,7 @@ public class BossAction : MonoBehaviour
         DonutAlert.SetActive(true);
         yield return StartCoroutine(Delay(delayTime));
 
-        anim.SetTrigger("isJumping");
+        _anim.SetTrigger("isJumping");
         Collider2D[] hitColliders = DonutAlert.GetComponent<BossAttackCheck>().checkRange();
 
         foreach (Collider2D collider in hitColliders)
@@ -284,5 +275,14 @@ public class BossAction : MonoBehaviour
     void OnDead()
     {
         isDead = true;
+        Debug.Log("dead");
+    }
+
+    public void Reset()
+    {
+        isDead = false;
+        curHp = maxHp;
+        transform.localPosition = new Vector2(0, 0);
+        hpBarRefresh(curHp);
     }
 }

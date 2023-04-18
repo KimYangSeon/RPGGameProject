@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2328656217381226725}
   m_Layer: 0
   m_Name: Donut Alert
-  m_TagString: Untagged
+  m_TagString: DonutAlert
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
