@@ -37,15 +37,17 @@ public class NPCAgent : Agent
         // 새로운 에피소드 시작
 
         // 플레이어 리셋
-        player.resetPlayer();
+        //player.resetPlayer();
         //npc.isBorder = false;
         //GameManager.GM.resetManager();
-        npc.isDead = false;
-        npc.curNPCHp = npc.maxNPCHp;
-        float x = Random.Range(-8.0f, 8.0f);
-        float y = Random.Range(-4.0f, 5.0f);
-        transform.localPosition = new Vector3(x, y, 0);
-        _healCnt = 0;
+
+        //npc.isDead = false;
+        //npc.curNPCHp = npc.maxNPCHp;
+        //float x = Random.Range(-8.0f, 8.0f);
+        //float y = Random.Range(-4.0f, 5.0f);
+        //transform.localPosition = new Vector3(x, y, 0);
+        //_healCnt = 0;
+
         //Debug.Log("에피소드 시작");
 
 
@@ -54,8 +56,8 @@ public class NPCAgent : Agent
     //{
     //    if (collision.gameObject.tag == "Player")
     //    {
-    //        //SetReward(1f);
-    //        //EndEpisode();
+    //        SetReward(1f);
+    //        EndEpisode();
     //    }
     //}
 
@@ -64,7 +66,7 @@ public class NPCAgent : Agent
     {
         // 플레이어의 hp를 관찰
         sensor.AddObservation(player.curPlayerHp);
-        sensor.AddObservation(npc.curNPCHp);
+        //sensor.AddObservation(npc.curNPCHp);
 
         //npc.distance = Vector2.Distance(transform.position, player.GetComponent<Transform>().position);
         //sensor.AddObservation(npc.distance);
@@ -99,19 +101,19 @@ public class NPCAgent : Agent
         //    EndEpisode();
         //}
 
-        if (player.isDead)
-        {
+       // if (player.isDead)
+       // {
             //Debug.Log("player dead");
-            AddReward(-1f);
-            EndEpisode();
-        }
+            //AddReward(-1f);
+            //EndEpisode();
+        //}
 
-        if (npc.isDead)
-        {
+       // if (npc.isDead)
+        //{
             //Debug.Log("npc dead");
-            AddReward(-1f);
-            EndEpisode();
-        }
+            //AddReward(-1f);
+            //EndEpisode();
+        //}
         //if (npc.distance <= 1)
         //{
         //    SetReward(1.0f);

@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 75381022a31bfb045b66e01bf2e3498d
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - NeoDunggeunmo
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 2143a120cbd85fd408fbfb02d8d75b35, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

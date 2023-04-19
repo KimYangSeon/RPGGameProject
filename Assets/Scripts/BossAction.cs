@@ -27,7 +27,7 @@ public class BossAction : MonoBehaviour
     public GameObject attackPrefab;
     public GameObject boss1MiniPrefab;
     public GameObject player;
-    public GameObject npc;
+    public GameObject DealerObj;
     public GameObject DonutAlert;
     public GameObject DonutAlertPrefeb;
 
@@ -47,7 +47,7 @@ public class BossAction : MonoBehaviour
     {
         _anim = GetComponent<Animator>();
         _playerTransform = player.GetComponent<Transform>();
-        _npcTransform = npc.GetComponent<Transform>();
+        _npcTransform = DealerObj.GetComponent<Transform>();
     }
 
     void Start()
@@ -85,8 +85,17 @@ public class BossAction : MonoBehaviour
 
         if (!isAttacking)
         {
-            transform.position
+            if (GameManager.Instance.PlayerType == 0)
+            {
+                transform.position
             = Vector3.SmoothDamp(transform.position, _playerTransform.position, ref velocity, 1.8f);
+            }
+            else
+            {
+                transform.position
+            = Vector3.SmoothDamp(transform.position, _npcTransform.position, ref velocity, 1.8f);
+            }
+            
 
             // npc ÇÐ½À¿ë
             // transform.position
@@ -158,7 +167,7 @@ public class BossAction : MonoBehaviour
         switch (patternIdx)
         {
             case 0:
-                StartCoroutine(DefaultAttack(3, false));
+                StartCoroutine(DefaultAttack(3, false, 6));
                 break;
             case 1:
                 StartCoroutine(DefaultAndDonutAttack());

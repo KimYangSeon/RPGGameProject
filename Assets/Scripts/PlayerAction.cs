@@ -89,7 +89,7 @@ public class PlayerAction : CharacterAction
                 
             }
             dirVec = new Vector2(h, v).normalized;
-            if (h < 0) sprite.flipX = true;
+            if (h > 0) sprite.flipX = true;
             else sprite.flipX = false;
         }
         else

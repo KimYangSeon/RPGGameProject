@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class StageSelect : MonoBehaviour
 {
     public Button[] StageButtons = new Button[6];
+    int _selectedStage;
 
     void Start()
     {
@@ -22,18 +23,37 @@ public class StageSelect : MonoBehaviour
         //DataManager.Instance.LoadGameData();
     }
 
-    public void MoveToSelectedStage(int idx)
+    public void SelectStage(int idx)
     {
-        if (idx % 2 != 0)
+        _selectedStage = idx;
+    }
+
+    public void MoveToSelectedStage()
+    {
+        //_selectedStage = idx;
+        if (_selectedStage % 2 != 0)
         {
-            StartCoroutine(StageMove.Instance.LoadScene($"Puzzle{idx/2+1}"));
+            StartCoroutine(StageMove.Instance.LoadScene($"Puzzle{_selectedStage / 2 + 1}"));
             //SceneManager.LoadScene($"Puzzle{idx}");
         }
         else
         {
-            StartCoroutine(StageMove.Instance.LoadScene($"Stage{idx/2}"));
+            StartCoroutine(StageMove.Instance.LoadScene($"Stage{_selectedStage / 2}"));
             //SceneManager.LoadScene($"Stage{idx}");
         }
         
+    }
+
+    public void SelecteParty(int idx)
+    {
+        if (idx == 0) // 플레이어 = 딜러
+        {
+            GameManager.Instance.PlayerType = 0;
+        }
+        else // 플레이어 = 힐러
+        {
+            GameManager.Instance.PlayerType = 1;
+        }
+        MoveToSelectedStage();
     }
 }

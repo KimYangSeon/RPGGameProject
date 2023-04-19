@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     static GameManager _instance;
     static bool _init = false;
+    //static GameObject _obj;
 
     public bool isGameOver = false;
     public bool isStageClear = false;
@@ -13,8 +14,33 @@ public class GameManager : MonoBehaviour
     
     public static PuzzleManager Puzzle { get { return Instance?._puzzle ; } }
     PuzzleManager _puzzle = new PuzzleManager();
-    
 
+    public int PlayerType;
+    GameObject _playerObj;
+    GameObject _npcObj;
+    public GameObject PlayerObj
+    {
+        get
+        {
+            if (_playerObj == null)
+            {
+                _playerObj = GameObject.Find("Player");
+            }
+            return _playerObj;
+        }
+    }
+
+    public GameObject NPCObj
+    {
+        get
+        {
+            if (NPCObj == null)
+            {
+                _npcObj = GameObject.Find("NPC");
+            }
+            return _npcObj;
+        }
+    }
 
 
     public static GameManager Instance
@@ -25,7 +51,11 @@ public class GameManager : MonoBehaviour
             {
                 _init = true;
                 GameObject go = GameObject.Find("GameManager");
-
+                if (go == null)
+                {
+                    go = new GameObject("GameManager");
+                    go.AddComponent<GameManager>();
+                }
                 _instance = go.GetComponent<GameManager>();
                 DontDestroyOnLoad(go);
 
