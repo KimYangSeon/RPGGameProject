@@ -206,7 +206,11 @@ public class PlayerAction : CharacterAction
 
     void FixedUpdate()
     {
-        rigid.velocity = new Vector2(h, v).normalized * Time.deltaTime * velocity; // 플레이어 이동
+        if (GameManager.Instance.CanMove)
+        {
+            rigid.velocity = new Vector2(h, v).normalized * Time.deltaTime * velocity; // 플레이어 이동
+        }
+        
 
         // Debug.DrawRay(rigid.position, dirVec * 1.5f, new Color(0, 1, 0)); // 레이캐스트
 
@@ -278,11 +282,11 @@ public class PlayerAction : CharacterAction
 
         while (true)
         {
-            if (t < 1)
+            if (t < 0.2f)
             {
                 yield return fixedUpdate;
                 t += Time.deltaTime;
-                coolDownImg.fillAmount = (1-t) / 1;
+                coolDownImg.fillAmount = (0.2f - t) / 0.2f;
             }
             else
             {

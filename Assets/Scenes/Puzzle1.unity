@@ -3317,7 +3317,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Bridge: {fileID: 0}
-  isBlue: 0
+  type: 0
+  moveList: 
+  isVertical: 0
 --- !u!4 &450927893 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6125313684679285989, guid: 7ec21faa08d2708418c1b661a3283b57, type: 3}
@@ -3463,7 +3465,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.09}
+  m_Offset: {x: 0, y: -0.2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -3474,7 +3476,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5}
+  m_Size: {x: 0.37, y: 0.43}
   m_EdgeRadius: 0
 --- !u!1839735485 &530682375
 Tilemap:
@@ -4033,6 +4035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isGameOver: 0
   isStageClear: 0
+  CanMove: 1
 --- !u!4 &1283308118
 Transform:
   m_ObjectHideFlags: 0
@@ -4758,7 +4761,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 200b2eed366c5f3489187b72f9401378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneIdx: 0
+  CurSceneIdx: 0
 --- !u!1001 &6125313684857504240
 PrefabInstance:
   m_ObjectHideFlags: 0

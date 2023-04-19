@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Boss1MiniAction : MonoBehaviour
 {
-    Animator anim;
+    Animator _anim;
 
     public GameObject alert;
     bool isAttacking = false;
@@ -13,52 +13,47 @@ public class Boss1MiniAction : MonoBehaviour
     WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
     void Awake()
     {
-        anim = GetComponent<Animator>();
+        _anim = GetComponent<Animator>();
     }
 
-
-    public void choosePattern()
-    {
-        bossPattern(0);
-    }
 
     public void bossPattern(int patternIdx)
     {
         switch (patternIdx)
         {
-            case 0:
-                StartCoroutine(defaultAttack());
+            case 8:
+                StartCoroutine(DefaultAttack(0.5f, false));
                 break;
         }
     }
 
 
-    public IEnumerator defaultAttack()
+    public IEnumerator DefaultAttack(float delayTime, bool isContinuous, int size = 8)
     {
         isAttacking = true;
         alert.SetActive(true);
-        yield return StartCoroutine(delay(3));
+        alert.transform.localScale = new Vector3(size, size, 1);
+        yield return StartCoroutine(Delay(delayTime));
 
-        anim.SetTrigger("isJumping");
+        _anim.SetTrigger("isJumping");
         Collider2D[] hitColliders = alert.GetComponent<BossAttackCheck>().checkRange();
 
         foreach (Collider2D collider in hitColliders)
         {
             if (collider == null) continue;
             GameObject objectHit = collider.gameObject;
-            CharacterAction ch =  objectHit.GetComponent<CharacterAction>();
-            ch.TakeDamage(5);
+            CharacterAction ch = objectHit.GetComponent<CharacterAction>();
+            if (ch != null)
+                ch.TakeDamage(5);
         }
 
         alert.SetActive(false);
-        isAttacking = false;
 
-        Destroy(gameObject);
+
     }
 
-  
 
-    IEnumerator delay(float delayTime)
+    IEnumerator Delay(float delayTime)
     {
         float cur = 0;
         while (true)

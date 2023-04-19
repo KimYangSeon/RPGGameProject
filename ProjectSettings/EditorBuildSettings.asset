@@ -16,7 +16,7 @@ EditorBuildSettings:
     guid: 6ad2694332fffd14b998c1feaabd04a3
   - enabled: 1
     path: Assets/Scenes/Puzzle3.unity
-    guid: 37ee28ebd5e173d47b78831aa8fe0bb8
+    guid: bf66a6e9c5879da4d986f1e39e62d6ef
   - enabled: 1
     path: Assets/Scenes/Stage1.unity
     guid: 379bc53bf5c185148956c817e001692e

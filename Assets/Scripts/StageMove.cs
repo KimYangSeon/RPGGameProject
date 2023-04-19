@@ -21,18 +21,6 @@ public class StageMove : MonoBehaviour
                 _obj = new GameObject("SceneManager");
                 _instance = _obj.AddComponent(typeof(StageMove)) as StageMove;
                 DontDestroyOnLoad(_obj);
-                //GameObject _canvasObj;
-                //_canvasObj = new GameObject("Panel Canvas");
-                //_canvasObj.transform.parent = _obj.transform;
-                //_canvasObj.AddComponent<Canvas>();
-
-                //GameObject _panelObj;
-                //_panelObj = new GameObject("Panel");
-                //_panelObj.transform.parent = _canvasObj.transform;
-                //image = _panelObj.AddComponent<Image>();
-                //image.color = Color.black;
-
-                //DontDestroyOnLoad(_obj);
             }
             
             return _instance;
@@ -42,7 +30,6 @@ public class StageMove : MonoBehaviour
 
     void Awake()
     {
-        //_panel = transform.GetChild(0).gameObject;
         if (_panel == null) return;
         image = _panel.GetComponent<Image>();
         if(!_instance) _instance = this;
@@ -90,9 +77,7 @@ public class StageMove : MonoBehaviour
 
     public IEnumerator LoadSceneAfterDelay(string sceneName, float delay)
     {
-        Debug.Log("??????");
         yield return new WaitForSeconds(delay);
-        Debug.Log("???");
         if (_panel == null)
         {
             Debug.Log(sceneName);

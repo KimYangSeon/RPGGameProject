@@ -3,6 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum PatternType
+{
+    Default = 0,
+    DefaultDonut=1,
+    DefaultDonut2=2,
+    DonutDefault=3,
+    DonutDefault2=4,
+    Traking=5,
+    Traking2=6,
+    Summon=7,
+    DefaultAttackShort=8,
+}
+
 public class BossAction : MonoBehaviour
 {
     public float curHp;
@@ -16,6 +29,7 @@ public class BossAction : MonoBehaviour
     public GameObject player;
     public GameObject npc;
     public GameObject DonutAlert;
+    public GameObject DonutAlertPrefeb;
 
     public bool isDead = false;
 
@@ -24,6 +38,8 @@ public class BossAction : MonoBehaviour
     Transform _playerTransform;
     Transform _npcTransform;
     Animator _anim;
+    int[] _patternArr = { (int) PatternType.Summon, (int)PatternType.DefaultAttackShort, (int)PatternType.Traking2, (int)PatternType.DonutDefault2 };
+    int _patternIdx = 0;
 
     WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
 
@@ -45,7 +61,15 @@ public class BossAction : MonoBehaviour
     IEnumerator initPattern()
     {
         yield return StartCoroutine(BossWait());
-        Invoke("choosePattern", 5f);
+        if (BossNum == 3)
+        {
+            Invoke("choosePattern", 2f);
+        }
+        else
+        {
+            Invoke("choosePattern", 5f);
+        }
+        
     }
 
     IEnumerator BossWait()
@@ -78,7 +102,7 @@ public class BossAction : MonoBehaviour
 
         if (BossNum == 1)
         {
-            bossPattern(0);
+            bossPattern((int)PatternType.Default);
         }
         else if (BossNum == 2)
         {
@@ -86,23 +110,45 @@ public class BossAction : MonoBehaviour
             {
                 int idx = Random.Range(0, 2);
                 if(idx==0)
-                    bossPattern(2); // 추적
+                    bossPattern((int)PatternType.Traking); 
                 else
-                    bossPattern(1); // 장판 2개 
+                    bossPattern((int)PatternType.DefaultDonut); 
             }
             else
             {
-                bossPattern(1); // 장판 2개 
+                bossPattern((int)PatternType.DefaultDonut); 
             }
             
         }
         else if (BossNum == 3)
         {
-            bossPattern(2);
-        }
-        else if (BossNum == 4)
-        {
-            bossPattern(3);
+            if (curHp / maxHp > 0.7f)
+            {
+                int idx = Random.Range(0, 3);
+                if (idx == 0)
+                    bossPattern((int)PatternType.DefaultDonut2);
+                else if (idx == 1)
+                    bossPattern((int)PatternType.DonutDefault);
+                else if (idx == 2)
+                    bossPattern((int)PatternType.Traking2);
+
+            }
+            else if (curHp / maxHp > 0.4f)
+            {
+                int idx = Random.Range(0, 3);
+                if (idx == 0)
+                    bossPattern((int)PatternType.DefaultDonut2);
+                else if (idx == 1)
+                    bossPattern((int)PatternType.DonutDefault2);
+                else if (idx == 2)
+                    bossPattern((int)PatternType.Traking2);
+            }
+            else
+            {
+                bossPattern(_patternArr[_patternIdx]);
+                _patternIdx = (_patternIdx + 1) % 4;
+            }
+            
         }
 
     }
@@ -118,20 +164,35 @@ public class BossAction : MonoBehaviour
                 StartCoroutine(DefaultAndDonutAttack());
                 break;
             case 2:
-                StartCoroutine(ContinuousAttack());
-                //summon();
+                StartCoroutine(DefaultAndDonutAttack2());
                 break;
             case 3:
-                //StartCoroutine(DonutAttack());
+                StartCoroutine(DonutAndDefaultAttack());
+                break;
+            case 4:
+                StartCoroutine(DonutAndDefaultAttack2());
+                break;
+            case 5:
+                StartCoroutine(ContinuousAttack());
+                break;
+            case 6:
+                StartCoroutine(ContinuousAttack2());
+                break;
+            case 7:
+                StartCoroutine(Summon());
+                break;
+            case 8:
+                StartCoroutine(DefaultAttack(0.5f, false, 6, 1));
                 break;
         }
     }
 
 
-    public IEnumerator DefaultAttack(float delayTime, bool isContinuous)
+    public IEnumerator DefaultAttack(float delayTime, bool isContinuous, int size=3, int delay=6)
     {
         isAttacking = true;
         alert.SetActive(true);
+        alert.transform.localScale = new Vector3(size, size, 1);
         yield return StartCoroutine(Delay(delayTime));
 
         _anim.SetTrigger("isJumping");
@@ -147,10 +208,14 @@ public class BossAction : MonoBehaviour
         }
 
         alert.SetActive(false);
-        isAttacking = false;
+        //isAttacking = false;
 
-        if(!isContinuous) 
-            Invoke("choosePattern", 6);
+        if(!isContinuous)
+        {
+            isAttacking = false;
+            Invoke("choosePattern", delay);
+        }
+           
     }
 
     IEnumerator ContinuousAttack()
@@ -159,10 +224,23 @@ public class BossAction : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         StartCoroutine(PlayerTrackingAttack(2, true));
         yield return new WaitForSeconds(1.0f);
-        StartCoroutine(PlayerTrackingAttack(2, false));
+        StartCoroutine(PlayerTrackingAttack(2, false, 1));
     }
 
-    public IEnumerator PlayerTrackingAttack(float delayTime, bool isContinuous)
+    IEnumerator ContinuousAttack2()
+    {
+        StartCoroutine(PlayerTrackingAttack(2, true));
+        yield return new WaitForSeconds(1.0f);
+        StartCoroutine(PlayerTrackingAttack(2, true));
+        yield return new WaitForSeconds(1.0f);
+        StartCoroutine(PlayerTrackingAttack(2, true));
+        yield return new WaitForSeconds(1.0f);
+        StartCoroutine(PlayerTrackingAttack(2, true));
+        yield return new WaitForSeconds(1.0f);
+        StartCoroutine(PlayerTrackingAttack(2, false,1));
+    }
+
+    public IEnumerator PlayerTrackingAttack(float delayTime, bool isContinuous, int delay=6)
     {
 
             GameObject attackObj = Instantiate(attackPrefab, player.transform.position, Quaternion.identity);
@@ -182,7 +260,7 @@ public class BossAction : MonoBehaviour
         
 
         if(!isContinuous)
-            Invoke("choosePattern", 6);
+            Invoke("choosePattern", delay);
     }
 
 
@@ -239,31 +317,127 @@ public class BossAction : MonoBehaviour
 
     }
 
-    public void Summon()
+    public IEnumerator DefaultAndDonutAttack2()
     {
-        GameObject[] boss1_mini_array = new GameObject[6];
-        boss1_mini_array[0] = Instantiate(boss1MiniPrefab, new Vector3(-5, 0, 0), Quaternion.identity);
-        boss1_mini_array[1] = Instantiate(boss1MiniPrefab, new Vector3(-3, -2.5f, 0), Quaternion.identity);
-        boss1_mini_array[2] = Instantiate(boss1MiniPrefab, new Vector3(3, -2.5f, 0), Quaternion.identity);
-        boss1_mini_array[3] = Instantiate(boss1MiniPrefab, new Vector3(5, 0, 0), Quaternion.identity);
-        boss1_mini_array[4] = Instantiate(boss1MiniPrefab, new Vector3(3, 2.5f, 0), Quaternion.identity);
-        boss1_mini_array[5] = Instantiate(boss1MiniPrefab, new Vector3(-3, 2.5f, 0), Quaternion.identity);
-        foreach (GameObject bossMini in boss1_mini_array)
-        {
-            bossMini.GetComponent<Boss1MiniAction>().bossPattern(0);
-        }
+        // 기본 공격
+        yield return StartCoroutine(DefaultAttack(3, true, 4));
 
-        Invoke("choosePattern", 5);
+        //0.5초 딜레이
+        yield return new WaitForSeconds(0.5f);
+        // 도넛 공격
+        yield return StartCoroutine(DonutAttack(1, false, 4, 2));
+
     }
 
-    public IEnumerator DonutAttack(float delayTime, bool isContinuous)
+    public IEnumerator DonutAndDefaultAttack()
+    {
+        yield return StartCoroutine(DonutAttack(3, true, 4));
+
+        yield return new WaitForSeconds(0.5f);
+
+        StartCoroutine(DefaultAttack(1, false, 4, 2));
+    }
+
+    public IEnumerator DonutAndDefaultAttack2()
+    {
+
+        StartCoroutine(DonutAttack(3, true));
+
+        yield return new WaitForSeconds(1);
+
+        StartCoroutine(DefaultAttack(3, true, 6));
+
+        yield return new WaitForSeconds(1);
+
+        StartCoroutine(DonutAttack(3, false, 6, 2));
+    }
+
+    IEnumerator Summon()
+    {
+        GameObject[] boss1_mini_array = new GameObject[6];
+        boss1_mini_array[0] = Instantiate(boss1MiniPrefab, new Vector3(-7, 0, 0), Quaternion.identity);
+        boss1_mini_array[1] = Instantiate(boss1MiniPrefab, new Vector3(-3, 4, 0), Quaternion.identity);
+        boss1_mini_array[2] = Instantiate(boss1MiniPrefab, new Vector3(3, 4, 0), Quaternion.identity);
+        boss1_mini_array[3] = Instantiate(boss1MiniPrefab, new Vector3(7, 0, 0), Quaternion.identity);
+        boss1_mini_array[4] = Instantiate(boss1MiniPrefab, new Vector3(3, -4, 0), Quaternion.identity);
+        boss1_mini_array[5] = Instantiate(boss1MiniPrefab, new Vector3(-3, -4, 0), Quaternion.identity);
+
+
+        yield return new WaitForSeconds(2.0f);
+
+        foreach (GameObject bossMini in boss1_mini_array)
+        {
+            bossMini.GetComponent<Boss1MiniAction>().bossPattern((int)PatternType.DefaultAttackShort);
+        }
+
+        yield return new WaitForSeconds(2.0f);
+
+
+        StartCoroutine(MiniBossMove(boss1_mini_array[0], 1.5f, 2.5f));
+        StartCoroutine(MiniBossMove(boss1_mini_array[1], 3, 0));
+        StartCoroutine(MiniBossMove(boss1_mini_array[2], 2.5f, -1.5f));
+        StartCoroutine(MiniBossMove(boss1_mini_array[3], -1.5f, -2.5f));
+        StartCoroutine(MiniBossMove(boss1_mini_array[4], -3, 0));
+        StartCoroutine(MiniBossMove(boss1_mini_array[5], -2.5f, 1.5f));
+
+
+        yield return new WaitForSeconds(2.0f);
+            
+
+        foreach (GameObject bossMini in boss1_mini_array) // 이동 후 한번 더 공격
+        {
+            bossMini.GetComponent<Boss1MiniAction>().bossPattern((int)PatternType.DefaultAttackShort);
+        }
+
+        yield return new WaitForSeconds(2.0f);
+        
+        for(int i=0; i<6; i++)
+        {
+            Destroy(boss1_mini_array[i]);
+        }
+        
+
+        Invoke("choosePattern", 2);
+    }
+
+    IEnumerator MiniBossMove(GameObject go, float x, float y)
+    {
+        Vector3 _goalPos = go.transform.position + new Vector3(x, y, 0);
+        float curX = 0;
+        float curY = 0;
+        float absX = x < 0 ? x * -1 : x;
+        float absY = y < 0 ? y * -1 : y;
+
+        while (curX < absX || curY < absY)
+        {
+            if(curX < absX)
+            {
+                go.transform.position += new Vector3(x * Time.deltaTime * 2, 0, 0);
+                curX += Mathf.Abs(Time.deltaTime * x * 2);
+            }
+
+            if(curY < absY)
+            {
+                go.transform.position += new Vector3(0, y * Time.deltaTime * 2, 0);
+                curY += Mathf.Abs(Time.deltaTime * y * 2);
+            }
+
+            yield return fixedUpdate;
+        }
+
+        go.transform.position = _goalPos;
+    }
+
+    public IEnumerator DonutAttack(float delayTime, bool isContinuous, int size=3, int delay = 6)
     {
         isAttacking = true;
-        DonutAlert.SetActive(true);
+        GameObject attackObj = Instantiate(DonutAlertPrefeb, transform.position - new Vector3(0, 0.49f, 0), Quaternion.identity);
+        //DonutAlert.SetActive(true);
+        attackObj.transform.localScale = new Vector3(size, size, 1);
         yield return StartCoroutine(Delay(delayTime));
 
         _anim.SetTrigger("isJumping");
-        Collider2D[] hitColliders = DonutAlert.GetComponent<BossAttackCheck>().checkRange();
+        Collider2D[] hitColliders = attackObj.GetComponent<BossAttackCheck>().checkRange();
 
         foreach (Collider2D collider in hitColliders)
         {
@@ -274,11 +448,17 @@ public class BossAction : MonoBehaviour
                 ch.TakeDamage(5);
         }
 
-        DonutAlert.SetActive(false);
-        isAttacking = false;
+        Destroy(attackObj);
+        //attackObj.SetActive(false);
+        
 
         if (!isContinuous)
-            Invoke("choosePattern", 6);
+        {
+            isAttacking = false;
+            Invoke("choosePattern", delay);
+        }
+
+            
     }
 
     void OnDead()

@@ -9,10 +9,14 @@ public class GameManager : MonoBehaviour
 
     public bool isGameOver = false;
     public bool isStageClear = false;
-    PuzzleManager _puzzle = new PuzzleManager();
-    public static PuzzleManager Puzzle { get { return Instance?._puzzle ; } }
-
+    public bool CanMove = true;
     
+    public static PuzzleManager Puzzle { get { return Instance?._puzzle ; } }
+    PuzzleManager _puzzle = new PuzzleManager();
+    
+
+
+
     public static GameManager Instance
     {
         get
@@ -32,7 +36,15 @@ public class GameManager : MonoBehaviour
 
     public void StageClear(int idx) 
     {
-        StartCoroutine(StageMove.Instance.LoadSceneAfterDelay($"Puzzle{idx+1}", 5.0f));
+        if (idx < 3)
+        {
+            StartCoroutine(StageMove.Instance.LoadSceneAfterDelay($"Puzzle{idx + 1}", 5.0f));
+        }
+        else
+        {
+            Debug.Log("게임 클리어");
+        }
+        
     }
 
 
