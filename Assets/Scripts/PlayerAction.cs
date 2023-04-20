@@ -32,8 +32,12 @@ public class PlayerAction : CharacterAction
     public Image attackIcon;
     public Color pressedColor;
     public GameObject skillIcon;
+    public GameObject NPCObj;
     bool isAttackEnable = true;
     bool isPuzzleStage = false;
+    bool isHealEnable = true;
+    float skillRange=2;
+    float distance;
 
     Coroutine dotCo;
     Coroutine timerCo;
@@ -71,7 +75,7 @@ public class PlayerAction : CharacterAction
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.isGameOver) return;
+        if (isDead) return;
         // 플레이어 이동  
         if (!randomMode)
         {
@@ -116,8 +120,10 @@ public class PlayerAction : CharacterAction
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            
+            if (GameManager.Instance.PlayerType == 0)
                 Attack(scanObject);
+            else
+                Healing(5);
         }
 
 
@@ -143,23 +149,42 @@ public class PlayerAction : CharacterAction
         }
     }
 
+    public bool Healing(int value)
+    {
+        if (isHealEnable && enableRange())
+        {
+            NPCObj.GetComponent<NPCDealerAction>().getHealing(value);
+            //healEffect.SetActive(true);
+            //StartCoroutine(effectDealy());
+            StartCoroutine(HealCoolTime());
+            return true;
+
+        }
+        return false;
+    }
+
+    bool enableRange()
+    {
+        distance = Vector2.Distance(transform.localPosition, NPCObj.GetComponent<Transform>().localPosition);
+        if (distance > skillRange) return false;
+        return true;
+    }
+
     public void Attack(GameObject scanObject)
     {
         StartCoroutine(IconEffect(attackIcon));
-        
-        if (isDead || !isAttackEnable) return; // 죽었는지 & 쿨타임 체크
-        
-        if (scanObject != null && scanObject.tag == "Boss")
-        {
-            anim.SetTrigger("doAttack");
-            StartCoroutine(attackCoolTime());
 
-            //if (!scanObject) return;
-            scanObject.GetComponent<BossAction>().getDamage(atk);
-        }
-        
-            
-            
+        if (isDead || !isAttackEnable) return; // 죽었는지 & 쿨타임 체크
+
+            if (scanObject != null && scanObject.tag == "Boss")
+            {
+                anim.SetTrigger("doAttack");
+                StartCoroutine(attackCoolTime());
+
+                //if (!scanObject) return;
+                scanObject.GetComponent<BossAction>().getDamage(atk);
+            }
+
 
     }
 
@@ -191,6 +216,7 @@ public class PlayerAction : CharacterAction
         if (isDead) return;
         isDead = true;
         anim.SetTrigger("doDie");
+        GameManager.Instance.GameOver();
         //StopCoroutine(dotdamage());
     }
 
@@ -251,47 +277,24 @@ public class PlayerAction : CharacterAction
         }
     }
 
-    //public IEnumerator startTimer()
-    //{
-    //    curTime = 0;
-    //    //Debug.Log("start timer");
-
-    //    while (true)
-    //    {
-    //        if (curTime < timer)
-    //        {
-    //            yield return fixedUpdate;
-    //            curTime += Time.deltaTime;
-    //        }
-    //        else
-    //        {
-    //            //Debug.Log("timeover");
-    //            //GameManager.GM.timeOver = true;
-    //            isTimeOver = true;
-    //            yield break;
-    //        }
-    //    }
-
-    //}
-
     IEnumerator attackCoolTime()
     {
         float t = 0f;
         isAttackEnable = false;
-        coolDownImg.fillAmount = 1;
+        //coolDownImg.fillAmount = 1;
 
         while (true)
         {
-            if (t < 0.2f)
+            if (t < 0.1f)
             {
                 yield return fixedUpdate;
                 t += Time.deltaTime;
-                coolDownImg.fillAmount = (0.2f - t) / 0.2f;
+                //coolDownImg.fillAmount = (0.2f - t) / 0.2f;
             }
             else
             {
                 isAttackEnable = true;
-                coolDownImg.fillAmount = 0;
+                //coolDownImg.fillAmount = 0;
                 yield break;
             }
         }
@@ -323,5 +326,28 @@ public class PlayerAction : CharacterAction
 
         //StartCoroutine(dotdamage());
         //StartCoroutine(startTimer());
+    }
+
+    IEnumerator HealCoolTime()
+    {
+        float t = 0f;
+        isHealEnable = false;
+        coolDownImg.fillAmount = 1;
+
+        while (true)
+        {
+            if (t < 5f)
+            {
+                yield return fixedUpdate;
+                t += Time.deltaTime;
+                coolDownImg.fillAmount = (5 - t) / 5f;
+            }
+            else
+            {
+                isHealEnable = true;
+                coolDownImg.fillAmount = 0;
+                yield break;
+            }
+        }
     }
 }

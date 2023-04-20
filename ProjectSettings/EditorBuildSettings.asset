@@ -21,14 +21,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Stage1.unity
     guid: 379bc53bf5c185148956c817e001692e
   - enabled: 1
-    path: Assets/Scenes/Stage1(NPC).unity
-    guid: b73a192a2645e774b9b9155e3aaf4f43
-  - enabled: 1
     path: Assets/Scenes/Stage2.unity
     guid: 1ccec3d0484b54746bb0d05d4d4efae5
-  - enabled: 1
-    path: Assets/Scenes/Stage2(NPC).unity
-    guid: 55f681e6fd78f224992311ebe93755f4
   - enabled: 1
     path: Assets/Scenes/Stage3.unity
     guid: 7ee18fcb2965b5f4981c494f152ceb29

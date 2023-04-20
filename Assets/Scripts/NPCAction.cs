@@ -121,7 +121,7 @@ public class NPCAction : CharacterAction
     public override void TakeDamage(int damage)
     {
         //if (isDead || damage <= 0) return;
-
+        damage = 1;
         curNPCHp -= damage;
         isAttacked = true;
         //Debug.Log(curNPCHp);

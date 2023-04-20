@@ -27,6 +27,7 @@ public class NPCDealerAction : CharacterAction
     public Image npcHpImg;
 
     bool isAttackEnable = true;
+    GameObject _healEffect;
 
     public float atk;
     //public Rigidbody2D rigid;
@@ -37,6 +38,7 @@ public class NPCDealerAction : CharacterAction
     {
         coolTimeCounter = cntCoolTime();
         isHealEnable = true;
+        _healEffect = transform.GetChild(0).transform.GetChild(0).gameObject;
         //rigid = GetComponent<Rigidbody2D>();
         //StartCoroutine(dotHealing());
     }
@@ -169,5 +171,29 @@ public class NPCDealerAction : CharacterAction
                 yield break;
             }
         }
+    }
+
+    public void getHealing(int value)
+    {
+        if (isDead) return;
+        //isOverHealed = false;
+        //Debug.Log(curPlayerHp);
+        
+        curNPCHp += value;
+        if (curNPCHp > maxNPCHp)
+        {
+            curNPCHp = maxNPCHp;
+            //isOverHealed = true;
+        }
+        hpBarRefresh(curNPCHp);
+
+        _healEffect.SetActive(true);
+        StartCoroutine(effectDealy());
+    }
+
+    IEnumerator effectDealy()
+    {
+        yield return new WaitForSeconds(1.0f);
+        _healEffect.SetActive(false);
     }
 }

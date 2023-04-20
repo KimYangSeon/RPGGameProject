@@ -66,21 +66,8 @@ public class NPCAgent : Agent
     {
         // ÇÃ·¹ÀÌ¾îÀÇ hp¸¦ °üÂû
         sensor.AddObservation(player.curPlayerHp);
-        //sensor.AddObservation(npc.curNPCHp);
+        sensor.AddObservation(npc.curNPCHp);
 
-        //npc.distance = Vector2.Distance(transform.position, player.GetComponent<Transform>().position);
-        //sensor.AddObservation(npc.distance);
-        //sensor.AddObservation(player.transform.localPosition);
-        //sensor.AddObservation(boss.transform.localPosition);
-        //sensor.AddObservation(player.rigid.velocity);
-        //sensor.AddObservation(rigid.velocity);
-
-        // npcÀÇ Èú ÄðÅ¸ÀÓÀ» °üÂû
-        //sensor.AddObservation(npc.coolTime);
-        //sensor.AddObservation(npc.filledTime);
-
-        //sensor.AddObservation(transform.localPosition);
-        //Debug.Log(player.transform.localPosition);
     }
 
     public override void OnActionReceived(ActionBuffers actions)

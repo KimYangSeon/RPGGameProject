@@ -213,7 +213,7 @@ public class BossAction : MonoBehaviour
             GameObject objectHit = collider.gameObject;
             CharacterAction ch =  objectHit.GetComponent<CharacterAction>();
             if(ch != null)
-                ch.TakeDamage(5);
+                ch.TakeDamage(3);
         }
 
         alert.SetActive(false);

@@ -8,14 +8,15 @@ public class GameManager : MonoBehaviour
     static bool _init = false;
     //static GameObject _obj;
 
-    public bool isGameOver = false;
+    //public bool isGameOver = false;
     public bool isStageClear = false;
     public bool CanMove = true;
+    public GameObject GameOverObj;
     
     public static PuzzleManager Puzzle { get { return Instance?._puzzle ; } }
     PuzzleManager _puzzle = new PuzzleManager();
 
-    public int PlayerType;
+    public int PlayerType = 0;
     GameObject _playerObj;
     GameObject _npcObj;
     public GameObject PlayerObj
@@ -75,6 +76,23 @@ public class GameManager : MonoBehaviour
             Debug.Log("게임 클리어");
         }
         
+    }
+
+    public void GameOver()
+    {
+        if (GameOverObj == null)
+        {
+            GameOverObj = GameObject.Find("GameOver Canvas");
+        }
+        GameOverObj.transform.GetChild(0).gameObject.SetActive(true);
+        StartCoroutine(BackToStart());
+
+    }
+
+    IEnumerator BackToStart()
+    {
+        yield return new WaitForSeconds(3.0f);
+        StartCoroutine(StageMove.Instance.LoadScene("StartScene"));
     }
 
 

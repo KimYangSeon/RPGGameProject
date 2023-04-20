@@ -26,7 +26,7 @@ public class CameraController : MonoBehaviour
         minX = mapSize.x - width;
         minY = mapSize.y - height;
     }
-    void FixedUpdate()
+    void LateUpdate()
     {
         transform.position = playerTransform.position + cameraPos;
 
